@@ -32,13 +32,8 @@ var config = {
     flattr_button: ''
   },
   ghPages: {
-    remoteUrl: null,
     origin: 'origin',
-    branch: 'gh-pages',
-    cacheDir: '.publish',
-    push: true,
-    force: false,
-    message: null
+    branch: 'master',
   }
 };
 
