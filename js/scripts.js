@@ -1,14 +1,1 @@
-(function(window, document, undefined) {
-  console.log('hello world!');
-
-  // jQuery for page scrolling feature - requires jQuery Easing plugin
-  $(function() {
-    $('a.page-scroll').bind('click', function(event) {
-      var $anchor = $(this);
-      $('html, body').stop().animate({
-        scrollTop: $($anchor.attr('href')).offset().top
-      }, 1500, 'easeInOutExpo');
-      event.preventDefault();
-    });
-  });
-})(window, document);
+!function(o,t,n){console.log("hello world!"),$(function(){$("a.page-scroll").bind("click",function(o){var t=$(this);$("html, body").stop().animate({scrollTop:$(t.attr("href")).offset().top},1500,"easeInOutExpo"),o.preventDefault()})})}(window,document);

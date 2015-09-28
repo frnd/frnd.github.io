@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>frnd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml" title="frnd" href="/rss.xml">
+  </head>
+  <body>
+    <div class="site-wrap">
+      <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="/" class="site-title">frnd</a>
+      <nav class="site-nav right">
+        <a href="/blog">Blog</a><a href="/about">About</a></nav>
+      <div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+
+      <div class="post p2 p-responsive wrap" role="main">
+        <div class="measure">
+          
+<div class="post">
+  <header class="post-header mb2">
+    <h1>Select Options en tu WebDynpro.</h1>
+    <span class="post-meta">Mar 14, 2010</span><br>
+    <span class="post-meta small">
+    <a href="/tags/abap" title="abap">abap</a>, <a href="/tags/asistente" title="asistente">asistente</a>, <a href="/tags/dynpro" title="dynpro">dynpro</a>, <a href="/tags/module" title="module">module</a>, <a href="/tags/PAI" title="PAI">PAI</a>, <a href="/tags/PBO" title="PBO">PBO</a>, <a href="/tags/SAP" title="SAP">SAP</a>, <a href="/tags/subrutina" title="subrutina">subrutina</a>, <a href="/tags/table-control" title="table control">table control</a>
+    </span>
+  </header>
+  <article class="post-content py2">
+  <p>Las SELECT-OPTIONS de las Dynpro ABAP proporcionan una forma muy sencilla de crear filtros complejos para realizar
+consultas. En las WebDynpro también disponemos de las capacidades que ofrece esa elemento de ABAP usando el
+componente WDR_SELECT_OPTIONS.</p>
+<p>En este tutorial veremos un ejemplo sencillo y las diferentes opciones de personalización más comunes que ofrece.</p>
+<p>El objetivo que perseguimos es obtener una pantalla de selección como la que sigue:</p>
+<p><img src="/images/2010/03/resultado-final.png" alt="Alt Resultado Final SELECT-OPTIONS en WebDynpro." title="Resultado Final SELECT-OPTIONS en WebDynpro."></p>
+<p>En esta pantalla se han eliminado las opciones de selección extendidas pero estas salen por defecto y solo tendrás que
+eliminar unos parámetros para que aparezcan.</p>
+<h2 id="como-usar-el-componente-wdr_select_options">Como usar el componente WDR_SELECT_OPTIONS</h2>
+<p>El primer paso será indicar el uso del componente. Esto se hace en la vista del componente mediante los botones añadir
+y eliminar uso. Para este ejemplo usaremos tambien SALV_WD_TABLE para mostrar la tabla de materiales. El nombre que le
+pongamos en la columna “Component Use” será importante ya que se usará posteriormente.</p>
+<p><img src="/images/2010/03/componente.png" alt="Alt Vista de Componente." title="Vista de Componente."></p>
+<p>En nuestro component controller también indicaremos el uso del componente para manejar select options.</p>
+<p><img src="/images/2010/03/sowd.png" alt="Alt Vista del Component Controller" title="Vista del Component Controller"></p>
+<p>En nuestra ventana principal crearemos un contenedor de vistas (ViewContainerUIElement) para nuestro conjunto de campos
+de selección.</p>
+<p><img src="/images/2010/03/vista-main.png" alt="Alt Vista MAIN" title="Vista MAIN"></p>
+<p>En la vista de la ventana incrustaremos la vista WND_SELECTION_SCREEN que nos facilita el componente WDR_SELECT_OPTIONS.
+Esto es así por que en un mismo componente se pueden incluir varios campos de selección además de campos de entrada
+simples (Input Fields, Check Boxes, etc.).</p>
+<p><img src="/images/2010/03/vista-ventana.png" alt="Alt Vista de Ventana" title="Vista de Ventana"></p>
+<p>En este momento tenemos la vista vacia, y tenemos que añadir los campos de selección que queramos. Esto se hace
+mediante 2 métodos que proporciona el componente en la interfaz if_wd_select_options. El primero crea la
+tabla donde se guardan los rangos de selección:</p>
+<pre><code>lt_range_matnr = lr_helper-&gt;<span class="hljs-function"><span class="hljs-title">create_range_table</span><span class="hljs-params">( i_typename = <span class="hljs-string">'NOMBRE_TIPO_DATOS'</span> )</span></span>.</code></pre>
+
+<p>El segundo crea los campos de selección en la vista:</p>
+<pre><code><span class="hljs-prompt">lr_helper-&gt;</span>add_selection_field( i_id = <span class="hljs-string">'NOMBRE_CAMPO'</span>
+it_result = lt_range_matnr ).</code></pre>
+
+<p>En esta función se han puesto los parámetros imprescindibles para crear un SELECT-OPTIONS como en las Dynpro ABAP,
+pero hay además otros parámetros que pueden resultar útiles como:</p>
+<ul>
+<li>i_no_extension = [abap_true | abap_false] Elimina la posibilidad de crear una tabla de selecciones múltiple.</li>
+<li>i_no_complex_restrictions = [abap_true |abap_false] Elimina la posibilidad de cambiar el operador relacional.</li>
+</ul>
+<p>Estas tareas se realizarán en el método WDDOINIT de nuestro component controller, que es donde hemos declarado el uso del componente de sap para manejar select options, por lo que para nuestro ejemplo quedará como sigue:</p>
+<pre><code>METHOD wddoinit <span class="hljs-built_in">.</span>
+
+  <span class="hljs-built_in">DATA</span> lr_select_options <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> iwci_wdr_select_options<span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lr_helper <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> if_wd_select_options<span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lt_range_matnr <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> <span class="hljs-built_in">DATA</span><span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lt_range_matkl <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> <span class="hljs-built_in">DATA</span><span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lt_range_mtart <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> <span class="hljs-built_in">DATA</span><span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lr_comp_usage <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> if_wd_component_usage<span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lv_otr_text <span class="hljs-keyword">TYPE</span> <span class="hljs-built_in">STRING</span><span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span>this code is <span class="hljs-keyword">to</span> instantiate the component wdr_select_options
+  lr_comp_usage <span class="hljs-subst">=</span> wd_this<span class="hljs-subst">-&gt;</span>wd_cpuse_select_options( )<span class="hljs-built_in">.</span>
+  <span class="hljs-keyword">IF</span> lr_comp_usage<span class="hljs-subst">-&gt;</span>has_active_component( ) IS INITIAL<span class="hljs-built_in">.</span>
+    lr_comp_usage<span class="hljs-subst">-&gt;</span>create_component( )<span class="hljs-built_in">.</span>
+  ENDIF<span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span> Call the interface controller method init_selection_screen <span class="hljs-keyword">to</span> get the helper class
+  lr_select_options <span class="hljs-subst">=</span> wd_this<span class="hljs-subst">-&gt;</span>wd_cpifc_select_options( )<span class="hljs-built_in">.</span>
+  lr_helper <span class="hljs-subst">=</span> lr_select_options<span class="hljs-subst">-&gt;</span>init_selection_screen( )<span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span> <span class="hljs-built_in">Set</span> <span class="hljs-built_in">global</span> options<span class="hljs-built_in">.</span>
+  lr_helper<span class="hljs-subst">-&gt;</span>set_global_options(
+                              i_display_btn_cancel  <span class="hljs-subst">=</span> abap_false
+                              i_display_btn_check   <span class="hljs-subst">=</span> abap_false
+                              i_display_btn_reset   <span class="hljs-subst">=</span> abap_false
+                              i_display_btn_execute <span class="hljs-subst">=</span> abap_false )<span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span>Use the helper class <span class="hljs-keyword">to</span> create a range table for the <span class="hljs-built_in">data</span> elements MATNR, MATKL <span class="hljs-literal">and</span> MTART<span class="hljs-built_in">.</span>
+  lt_range_matnr <span class="hljs-subst">=</span> lr_helper<span class="hljs-subst">-&gt;</span>create_range_table( i_typename <span class="hljs-subst">=</span> <span class="hljs-string">'MARA-MATNR'</span> )<span class="hljs-built_in">.</span>
+  lt_range_matkl <span class="hljs-subst">=</span> lr_helper<span class="hljs-subst">-&gt;</span>create_range_table( i_typename <span class="hljs-subst">=</span> <span class="hljs-string">'MARA-MATKL'</span> )<span class="hljs-built_in">.</span>
+  lt_range_mtart <span class="hljs-subst">=</span> lr_helper<span class="hljs-subst">-&gt;</span>create_range_table( i_typename <span class="hljs-subst">=</span> <span class="hljs-string">'MARA-MTART'</span> )<span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span>Add a Selection Screen Field
+  lr_helper<span class="hljs-subst">-&gt;</span>add_selection_field( i_id <span class="hljs-subst">=</span> <span class="hljs-string">'SO_MATNR'</span>
+                                  it_result <span class="hljs-subst">=</span> lt_range_matnr
+                                  i_no_extension <span class="hljs-subst">=</span> abap_true             <span class="hljs-string">" Supress the multiple selection option.
+                                  i_use_complex_restriction = abap_true  "</span> Supress the relational operator button<span class="hljs-built_in">.</span>
+                                  )<span class="hljs-built_in">.</span>
+  lr_helper<span class="hljs-subst">-&gt;</span>add_selection_field( i_id <span class="hljs-subst">=</span> <span class="hljs-string">'SO_MATKL'</span>
+                                  it_result <span class="hljs-subst">=</span> lt_range_matkl
+                                  i_value_help_structure <span class="hljs-subst">=</span> <span class="hljs-string">'MARA'</span>        <span class="hljs-string">" Search help.
+                                  i_value_help_structure_field = 'MATKL'
+                                  i_no_extension = abap_true             "</span> Supress the multiple selection option<span class="hljs-built_in">.</span>
+                                  i_use_complex_restriction <span class="hljs-subst">=</span> abap_true  <span class="hljs-string">" Supress the relational operator button.
+                                  ).
+  lr_helper-&gt;add_selection_field( i_id = 'SO_MTART'
+                                  it_result = lt_range_mtart
+                                  i_value_help_mode = '0'
+                                  i_value_help_structure = 'MARA'        "</span> Search help<span class="hljs-built_in">.</span>
+                                  i_value_help_structure_field <span class="hljs-subst">=</span> <span class="hljs-string">'MTART'</span>
+                                  i_no_extension <span class="hljs-subst">=</span> abap_true             <span class="hljs-string">" Supress the multiple selection option.
+                                  i_use_complex_restriction = abap_true  "</span> Supress the relational operator button<span class="hljs-built_in">.</span>
+                                  )<span class="hljs-built_in">.</span>
+ENDMETHOD<span class="hljs-built_in">.</span></code></pre>
+
+<p>Es posible crear todo tipo de campos de entrada mediante el método add_parameter_field. Por ejemplo, para crear un check box:</p>
+<pre><code><span class="hljs-prompt">lr_helper-&gt;</span>add_parameter_field( i_id = <span class="hljs-string">'NOMBRE_CAMPO'</span>
+                                  i_as_checkbox = abap_true
+                                  i_description = lv_otr_text
+                                  ).</code></pre>
+
+<p>En este momento ya tenemos una pantalla donde se muestra un conjunto de campos de selección para nuestras necesidades. Nos queda resolver la necesidad de chequear la corrección de los datos introducidos por el usuario y la obtención de estos para generar la consulta.</p>
+<p>Para el primer paso, el componente ofrece el método check_all_selection_fields que devuelve el número de errores que se han producido. Posteriormente podemos usar un IF para comprobar si retorna 0 errores y continuar con el proceso o cancelar. El componente mostrará automáticamente los errores en la pantalla.</p>
+<pre><code>CALL <span class="hljs-function"><span class="hljs-keyword">METHOD</span> <span class="hljs-title">lr_helper</span>-&gt;<span class="hljs-title">check_all_selection_fields</span>
+    <span class="hljs-title">IMPORTING</span>
+      <span class="hljs-title">e_num_error_msgs</span>   = <span class="hljs-title">lv_num_error_msgs</span>
+*      <span class="hljs-title">e_num_warning_msgs</span> = <span class="hljs-title">lv_num_warning_msgs</span>
+*      <span class="hljs-title">e_num_info_msgs</span>    = <span class="hljs-title">lv_num_info_msgs</span>
+      .
+
+  <span class="hljs-title">IF</span> <span class="hljs-title">lv_num_error_msgs</span> <span class="hljs-title">EQ</span> 0
+*     <span class="hljs-title">lv_num_warning_msgs</span> <span class="hljs-title">eq</span> 0
+*     <span class="hljs-title">lv_num_info_msgs</span> <span class="hljs-title">eq</span> 0
+  .
+* <span class="hljs-title">No</span> <span class="hljs-title">errors</span>
+  <span class="hljs-title">ELSE</span>.
+* <span class="hljs-title">At</span> <span class="hljs-title">least</span> <span class="hljs-title">one</span> <span class="hljs-title">error</span>.
+  <span class="hljs-title">ENDIF</span>.</span></code></pre>
+
+<p>El siguiente paso es obtener la tabla con las opciones de selección que ha realizado el usiario. Esto se hará de la siguiente forma:</p>
+<pre><code><span class="hljs-built_in">DATA</span> so_matnr <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> <span class="hljs-built_in">DATA</span><span class="hljs-built_in">.</span>
+FIELD<span class="hljs-attribute">-SYMBOLS</span>  <span class="hljs-keyword">TYPE</span> ANY TABLE<span class="hljs-built_in">.</span>
+so_matnr <span class="hljs-subst">=</span> lr_helper<span class="hljs-subst">-&gt;</span>get_range_table_of_sel_field( i_id <span class="hljs-subst">=</span> <span class="hljs-string">'SO_MATNR'</span> )<span class="hljs-built_in">.</span>
+ASSIGN so_matnr<span class="hljs-subst">-&gt;</span><span class="hljs-subst">*</span> <span class="hljs-keyword">TO</span> <span class="hljs-built_in">.</span></code></pre>
+
+<p>El FIELD-SYMBOL es necesario para usarlo posteriormente en la consulta a la base de datos (sentencia SELECT … IN …) ya que de otra forma se producirá un error de compilación.</p>
+<p>Para realizar el chequeo de los campos que no son SELECT-OPTIONS y obtener sus valores, usaremos los métodos check_all_parameter_fields y get_value_of_parameter_field de la interfaz if_wd_select_options.</p>
+<p>Estos metodos se usarán en una acción asignada a un botón. Para el ejemplo, hemos creado una acción MOSTRAR asignandola a su correspondiente botón. El código completo quedará como sigue:</p>
+<pre><code class="hljs javascript">METHOD onactionmostrar .
+
+  DATA lo_el_context TYPE REF TO if_wd_context_element.
+  DATA ls_context TYPE wd_this-&gt;element_context.
+  DATA lv_limit TYPE wd_this-&gt;element_context-limit.
+
+  DATA lo_nd_alv_table TYPE REF TO if_wd_context_node.
+  DATA lt_alv_table TYPE wd_this-&gt;elements_alv_table.
+
+  DATA so_matnr TYPE REF TO DATA.
+  DATA so_matkl TYPE REF TO DATA.
+  DATA so_mtart TYPE REF TO DATA.
+*  DATA limit TYPE REF TO data.
+  FIELD-SYMBOLS &lt;so_matnr&gt; TYPE ANY TABLE.
+  FIELD-SYMBOLS &lt;so_matkl&gt; TYPE ANY TABLE.
+  FIELD-SYMBOLS &lt;so_mtart&gt; TYPE ANY TABLE.
+
+  DATA lr_select_options TYPE REF TO iwci_wdr_select_options.
+  DATA lr_helper TYPE REF TO if_wd_select_options.
+  DATA lr_comp_usage TYPE REF TO if_wd_component_usage.
+  DATA lt_fields TYPE if_wd_select_options=&gt;tt_selection_screen_item.
+  FIELD-SYMBOLS &lt;ls_field&gt; TYPE if_wd_select_options=&gt;t_selection_screen_item.
+  DATA: lv_num_error_msgs TYPE i,
+        lv_num_warning_msgs TYPE i,
+        lv_num_info_msgs TYPE i.
+
+* Get report table from context.
+  lo_nd_alv_table = wd_context-&gt;get_child_node( NAME = wd_this-&gt;wdctx_alv_table ).
+
+  lr_comp_usage = wd_this-&gt;wd_cpuse_select_options( ).
+  IF lr_comp_usage-&gt;has_active_component( ) IS INITIAL.
+    lr_comp_usage-&gt;create_component( ).
+  ENDIF.
+
+  lr_select_options = wd_this-&gt;wd_cpifc_select_options( ).
+
+  lr_helper = lr_select_options-&gt;init_selection_screen( ).
+
+* check correction of selection fields.
+  CALL METHOD lr_helper-&gt;check_all_selection_fields
+    IMPORTING
+      e_num_error_msgs   = lv_num_error_msgs
+*      e_num_warning_msgs = lv_num_warning_msgs
+*      e_num_info_msgs    = lv_num_info_msgs
+      .
+
+  IF lv_num_error_msgs EQ <span class="hljs-number">0</span>
+*     lv_num_warning_msgs eq <span class="hljs-number">0</span>
+*     lv_num_info_msgs eq <span class="hljs-number">0</span>
+  .
+    lr_helper-&gt;get_selection_screen_items(
+                  IMPORTING et_selection_screen_items = lt_fields ).
+
+* Retrieve the data from the select option
+    so_matnr = lr_helper-&gt;get_range_table_of_sel_field( i_id = <span class="hljs-string">'SO_MATNR'</span> ).
+    ASSIGN so_matnr-&gt;* TO &lt;so_matnr&gt;.
+
+    so_matkl = lr_helper-&gt;get_range_table_of_sel_field( i_id = <span class="hljs-string">'SO_MATKL'</span> ).
+    ASSIGN so_matkl-&gt;* TO &lt;so_matkl&gt;.
+
+    so_mtart = lr_helper-&gt;get_range_table_of_sel_field( i_id = <span class="hljs-string">'SO_MTART'</span> ).
+    ASSIGN so_mtart-&gt;* TO &lt;so_mtart&gt;.
+
+*    limit = lr_helper-&gt;get_value_of_parameter_field( i_id  = <span class="hljs-string">'LIMIT'</span> ).
+
+    lo_el_context = wd_context-&gt;get_element( ).
+    lo_el_context-&gt;get_attribute(
+      EXPORTING
+        NAME =  `LIMIT`
+      IMPORTING
+        VALUE = lv_limit ).
+
+    IF lv_limit = abap_true.
+      SELECT m~matnr d~maktx txtm~mtbez txtt~wgbez m~ernam
+        INTO CORRESPONDING FIELDS OF TABLE lt_alv_table
+        FROM  ( ( ( mara AS m
+                LEFT OUTER JOIN makt AS d ON m~matnr = d~matnr AND d~spras = sy-langu  )
+                LEFT OUTER JOIN t134t AS txtm ON m~mtart = txtm~mtart AND txtm~spras = sy-langu )
+                LEFT OUTER JOIN t023t AS txtt ON m~matkl = txtt~matkl AND txtt~spras = sy-langu )
+       UP TO <span class="hljs-number">500</span> ROWS
+       WHERE m~matnr IN &lt;so_matnr&gt;
+         AND m~mtart IN &lt;so_mtart&gt;
+         AND m~matkl IN &lt;so_matkl&gt;
+       .
+    ELSE.
+      SELECT m~matnr d~maktx txtm~mtbez txtt~wgbez m~ernam
+       INTO CORRESPONDING FIELDS OF TABLE lt_alv_table
+       FROM  ( ( ( mara AS m
+               LEFT OUTER JOIN makt AS d ON m~matnr = d~matnr AND d~spras = sy-langu  )
+               LEFT OUTER JOIN t134t AS txtm ON m~mtart = txtm~mtart AND txtm~spras = sy-langu )
+               LEFT OUTER JOIN t023t AS txtt ON m~matkl = txtt~matkl AND txtt~spras = sy-langu )
+      WHERE m~matnr IN &lt;so_matnr&gt;
+        AND m~mtart IN &lt;so_mtart&gt;
+        AND m~matkl IN &lt;so_matkl&gt;
+      .
+    ENDIF.
+    IF sy-dbcnt &gt; <span class="hljs-number">0.</span>
+      lo_nd_alv_table-&gt;bind_table( new_items = lt_alv_table set_initial_elements = abap_true ).
+      wd_this-&gt;fire_to_alv_plg(
+      ).
+    ELSE.
+      wd_this-&gt;fire_to_no_data_plg(
+      ).
+    ENDIF.
+  ENDIF.
+ENDMETHOD.</code></pre>
+
+<p>##Completando el ejemplo.</p>
+<p>A partir de aqui, el resto del tutorial nos centramos en completar el ejemplo para poder mostrar el resultado de la consulta en un ALV. Si solo tienes interes en usar el componente para crear los SELECT_OPTIONS puedes terminar de leer aqui.</p>
+<p>Para almacenar los datos que se mostrarán en el ALV, crearemos un nodo en el controlador del componente (Component Controller) que contendrá los campos que deseemos mostrar. Para este ejemplo, realizaremos un informe sobre la tabla de materiales en la que mostraremos el numero de material, la descripción el grupo y el tipo en el idioma de inicio de sesión:</p>
+<ul>
+<li>mara-matnr</li>
+<li>makt-maktx</li>
+<li>t134t-mtbez</li>
+<li>t023t-wgbez</li>
+</ul>
+<p>En la vista del controlador ALV asociaremos el nodo creado en nuestro controlador con el nodo DATA que dispone el controlador del ALV. Esto hace que se muestren los datos en la tabla del ALV.</p>
+<p><img src="/images/2010/03/alv.png" alt="Alt Mapeo datos ALV" title="Mapeo datos ALV"></p>
+<p>También deberemos crear los conectores de salida y los de entrada para las diferentes vistas y asociarlos. En la siguiente captura de pantalla se pueden apleciar los diferentes conectores creadoy y su conexión.</p>
+<p><img src="/images/2010/03/conectores.png" alt="Alt Conectores" title="Conectores"></p>
+
+  </article>
+  
+    <div class="post-content">
+      <div id="disqus_thread"></div>
+    </div>
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+  <div class="p2 wrap">
+    <div class="measure mt1 center">
+      <small>
+        built with <a href="http://www.metalsmith.io/">metalsmith</a> & theme from <a href="https://github.com/johnotander/pixyll">pixyll</a>
+      </small>
+    </div>
+  </div>
+</footer>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.easing.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', '123457', 'auto');
+  ga('send', 'pageview');
+</script>
+    
+<script type="text/javascript">
+  // disqus
+  var disqus_shortname = 'example';
+  var disqus_title = 'Select Options en tu WebDynpro.';
+  var disqus_url = 'http://example.com/blog/select-options-en-tu-webdynpro/';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  // Twitter
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+
+  </body>
+</html>
