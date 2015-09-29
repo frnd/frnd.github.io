@@ -2,55 +2,61 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>http://frnd.github.io/about</loc>
-        <lastmod>2015-09-22</lastmod>
+        <lastmod>2015-09-28</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>http://frnd.github.io/cv</loc>
-        <lastmod>2015-09-22</lastmod>
+        <lastmod>2015-09-28</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>http://frnd.github.io/</loc>
-        <lastmod>2015-09-22</lastmod>
+        <lastmod>2015-09-28</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>http://frnd.github.io/blog/select-options-en-tu-webdynpro</loc>
-        <lastmod>2015-09-22</lastmod>
+        <lastmod>2015-09-28</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>http://frnd.github.io/blog/uso-del-table-control-en-tu-dynpro</loc>
-        <lastmod>2015-09-22</lastmod>
+        <lastmod>2015-09-28</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>http://frnd.github.io/blog/creaci-n-de-una-plantilla-para-proyecto-con-maven</loc>
-        <lastmod>2015-09-22</lastmod>
+        <lastmod>2015-09-28</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>http://frnd.github.io/blog/generaci-n-de-c-digo-fuente-con-maven</loc>
-        <lastmod>2015-09-22</lastmod>
+        <lastmod>2015-09-28</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>http://frnd.github.io/blog/nodejs-express-agrupar-mensajes-en-los-logs-mediante-id-nico</loc>
+        <lastmod>2015-09-29</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>http://frnd.github.io/blog/1/index.html</loc>
-        <lastmod>2015-09-25</lastmod>
+        <lastmod>2015-09-29</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>http://frnd.github.io/blog/index.html</loc>
-        <lastmod>2015-09-25</lastmod>
+        <lastmod>2015-09-29</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
