@@ -4,9 +4,9 @@ var config = {
     site: {
       url: process.env.SITE_URL || 'http://frnd.github.io', // full site url
       title: 'frnd',
-      comments: true,
+      comments: false,
       disqus: process.env.DISQUS || 'frnd.github.io',
-      googleAnalytics: process.env.GOOGLE_ANALYTICS || '123457'
+      googleAnalytics: process.env.GOOGLE_ANALYTICS || 'UA-68223149-1'
     }
   },
   development: {
@@ -14,9 +14,9 @@ var config = {
     site: {
       url: process.env.DEV_SITE_URL || 'http://localhost:8000', // full site url
       title: 'frnd',
-      comments: true,
+      comments: false,
       disqus: process.env.DEV_DISQUS || 'staging-example',
-      googleAnalytics: process.env.DEV_GOOGLE_ANALYTICS || '123456'
+      googleAnalytics: process.env.DEV_GOOGLE_ANALYTICS || '12345678'
     }
   },
   social: {

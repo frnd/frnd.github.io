@@ -19,8 +19,10 @@
       </div>
     </div>
     {% include 'partials/footer.html' %}
-    <script src="/js/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="/js/jquery.easing.js"></script>
+    <script src="/js/eu-cookie-law.js"></script>
     <script src="/js/scripts.js"></script>
     {%if site.googleAnalytics %}{% include 'partials/analytics.html' %}{% endif %}
     {% block thirdparty %}{% endblock %}
