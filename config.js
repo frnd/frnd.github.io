@@ -4,6 +4,7 @@ var config = {
     site: {
       url: process.env.SITE_URL || 'http://frnd.github.io', // full site url
       title: 'frnd',
+      author: 'Fernando González',
       comments: false,
       disqus: process.env.DISQUS || 'frnd.github.io',
       googleAnalytics: process.env.GOOGLE_ANALYTICS || 'UA-68223149-1'
@@ -14,6 +15,7 @@ var config = {
     site: {
       url: process.env.DEV_SITE_URL || 'http://localhost:8000', // full site url
       title: 'frnd',
+      author: 'Fernando González',
       comments: false,
       disqus: process.env.DEV_DISQUS || 'staging-example',
       googleAnalytics: process.env.DEV_GOOGLE_ANALYTICS || '12345678'
@@ -22,7 +24,7 @@ var config = {
   social: {
     github_username: 'frnd',
     stackoverflow_id: '',
-    twitter_username: '',
+    twitter_username: 'frndgn',
     google_plus_id: '',
     email: '',
     linkedin_username: 'fgonzalez',

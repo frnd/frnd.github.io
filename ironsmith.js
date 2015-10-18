@@ -82,6 +82,7 @@ module.exports = function(production) {
       path: 'tags/:tag/index.html',
       pathPage: 'tags/:tag/:num/index.html',
       perPage: 5,
+      metadataKey: 'keywords',
       sortBy: 'data',
       reverse: true
     }))
