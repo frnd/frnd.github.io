@@ -12,7 +12,7 @@ Maven es una herramienta muy útil para la gestión de proyectos. Facilita la ge
 
 Como ya hemos dicho, Maven es una herramienta para compilar y gestionar proyectos.  Es muy usada en proyectos Java, aunque es genérica y podría ser usada para cualquier lenguaje. Está basada en que el proyecto tiene una estructura de directorios específica que veremos posteriormente, aunque es totalmente configurable.
 
-##Creación de una plantilla vacía.
+## Creación de una plantilla vacía.
 
 Una plantilla para Maven tiene la siguiente estructura:
 
@@ -46,7 +46,7 @@ Puedes crear esa estructura a mano, pero es más sencillo usar el [plugin Archet
 
     mvn archetype:generate
 
-##Creación de una plantilla basándose en un proyecto existente.
+## Creación de una plantilla basándose en un proyecto existente.
 
 Si ya tienes un proyecto sobre el que quieras crear un modelo para poder generar proyectos similares puedes ejecutar el siguiente comando:
 
@@ -60,18 +60,19 @@ Es posible que necesites realizar alguna modificación en los ficheros para adap
  - Definir variables en el contenido del fichero para adaptar ciertos nombres a tus necesidades.
  - Personalizar los nombres de ficheros según unas variables.
 
-##Organizar los ficheros en paquetes
+## Organizar los ficheros en paquetes
 
 Dentro del fichero archetype-metadata.xml encontraremos una serie de descriptores de los directorios en los que se compone nuestro proyecto. Un ejemplo sería:
 
-```xml
-<fileSet filtered="true" packaged="true" encoding="UTF-8">
-   <directory>src/main/java</directory>
-   <includes>
-      <include>**/*.java</include>
-   </includes>
-</fileSet>
-```
+  ```
+  <fileSet filtered="true" packaged="true" encoding="UTF-8">
+     <directory>src/main/java</directory>
+     <includes>
+        <include>**/*.java</include>
+     </includes>
+  </fileSet>
+  ```
+
 Como vemos es bastante descriptivo, pero vamos a explicar la parte que nos interesa.  En el elemento fileSet vemos el atributo packaged="true", mediante este atributo indicamos a maven que al prosesar el contenido de ese directorio use una estructura de paquetes. Si por ejemplo, el contenido de ese directorio es
 
     src/main/java
@@ -93,29 +94,31 @@ en el proyecto resultado estará dentro de una estructura de paquetes indicado m
 
 El fichero para la clase Objeto1 y Objeto2 deberá contener la instrucción package es.excelsit.miProyecto;. Para ello usaremos la siguiente sintaxis para la definición del paquete:
 
-    package ${package};
+```
+package ${package};
+```
 
-##Uso de variables en la plantilla.
+## Uso de variables en la plantilla.
 
 Si abrimos alguno de los ficheros de nuestra plantilla veremos que todos comienzan con algo asi:
 
-    #set ( $symbol_pound = '#' )
-    #set ( $symbol_dollar = '$' )
-    #set ( $symbol_escape = '\' )
+```
+#set ( $symbol_pound = '#' )
+#set ( $symbol_dollar = '$' )
+#set ( $symbol_escape = '\' )
+```
 
-Como vemos por su sintaxis, el plugin usa de forma interna Velocity para la generación y adaptación de los ficheros de nuestra platilla de proyecto. Esto nos permite mucha libertad a la hora de crear el contenido del fichero. Hay que tener en cuenta que como  los símbolos almoadilla (#), dolar ($) y barra invertida (\) son caracteres especiales, si los queremos usar deberemos hacerlo mediante sus variables $symbol_pound, $symbol_dollar y $symbol_escape correspondientes.
+Como vemos por su sintaxis, el plugin usa de forma interna [Velocity]( http://velocity.apache.org/engine/devel/translations/user-guide_es.html) para la generación y adaptación de los ficheros de nuestra platilla de proyecto. Esto nos permite mucha libertad a la hora de crear el contenido del fichero. Hay que tener en cuenta que como  los símbolos almoadilla (#), dolar ($) y barra invertida (\\) son caracteres especiales, si los queremos usar deberemos hacerlo mediante sus variables `$symbol_pound`, `$symbol_dollar` y `$symbol_escape` correspondientes.
 
-###Añadir propiedades propias.
+### Añadir propiedades propias.
 
 Podremos crear propiedades propias de la siguiente forma:
 
     #set ( $miPropiedad = 'valor' )
 
-En este punto tendremos toda la libertad que ofrece Velocity para concatenar cadenas, obtener la fecha del sistema, etc. Estas propiedades que creemos las podemos usar dentro del contenido del fichero mediante:
+En este punto tendremos toda la libertad que ofrece Velocity para concatenar cadenas, obtener la fecha del sistema, etc. Estas propiedades que creemos las podemos usar dentro del contenido del fichero mediante `$miPropiedad`.
 
-    $miPropiedad
-
-También tenemos la posibilidad de renombrar ficheros según nuestras necesidades durante el proceso de generación de nuestro proyecto a partir de la plantilla. Para poder usar variables en el nombre del fichero usaremos dos careateres guión bajo (_) rodeando el nombre de la varible para indicar que se debe sustituir por su vlaor. Por ejemplo:
+También tenemos la posibilidad de renombrar ficheros según nuestras necesidades durante el proceso de generación de nuestro proyecto a partir de la plantilla. Para poder usar variables en el nombre del fichero usaremos dos careateres guión bajo (\_) rodeando el nombre de la varible para indicar que se debe sustituir por su vlaor. Por ejemplo:
 
 ```
 __miPropiedad__App.java
@@ -123,7 +126,7 @@ __artifactId__-context.xml
 __groupId__App.java
 ```
 
-###Personalizar el nombre de ficheros con variables.
+### Personalizar el nombre de ficheros con variables.
 
 De forma predeterminada tenemos usa serie da variables ya predefinidas quepodemos usar para renombrar ficheros de nuestra plantilla, pero nos puede interesar crear variables en el momento de generar el proyecto para renombrar ficheros. Para poder hacer esto podemos valernos de que el primer fichero que se procesa es el pom.xml y crear en el las variebles con el valor que necesitemos. Posteriormente podremos hacer referencia a esas variables definidas en el nombre del fichero. Por ejemplo podemos definir el fichero pom.xml de la siguiente forma:
 
@@ -134,24 +137,25 @@ De forma predeterminada tenemos usa serie da variables ya predefinidas quepodemo
 #set ( $theVersion = $version )
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-<modelVersion>4.0.0</modelVersion>
-<groupId>$thegroupId</groupId>
-<artifactId>$theArtifactId</artifactId>
-<version>$theVersion</version>
-<dependencies>
-<dependency>
-<groupId>junit</groupId>
-<artifactId>junit</artifactId>
-<version>3.8.1</version>
-<scope>test</scope>
-</dependency>
-</dependencies>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>$thegroupId</groupId>
+  <artifactId>$theArtifactId</artifactId>
+  <version>$theVersion</version>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
 ```
 
 En la línea 1 hemos definido una propiedad a la que le hemos dado cierto valor. Pero recuerda que internamente funciona con Velocity, por lo que podremos generar ese valor de cualquier forma. Podremos usar esa propiedad para renombrar ficheros según la forma que hemos visto anteriormente \_\_customProperty\_\_App.java
 
-##Usar la plantilla.
+## Usar la plantilla.
 
 Para usar la plantilla lo más sencillo es realizar una instalación local. Usaremos el siguiente comando dentro de la carpeta de nuestro proyecto:
 
@@ -165,6 +169,6 @@ Si no aparece nuestra plantilla quizás deberamos actualizar el catalogo mediant
 
     mvn archetype:crawl
 
-##Código de ejemplo
+## Código de ejemplo
 
-Descarga el ejemplo de plantilla: [example-archetype] (/upload/frnd-example-archetype.zip).
+Descarga el ejemplo de plantilla: [example-archetype](/uploads/2011/04/09/frnd-example-archetype.zip).
