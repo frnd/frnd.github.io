@@ -81,6 +81,6 @@ De la línea 12 a la 16 vemos la parte de configuración del plugin de compilaci
 
 ## Proyecto de ejemplo.
 
-Para que tengais una visión de como quedaría el proyecto aquí tenéis el ejemplo sobre generación de código mediante el filtrado de Maven completo. Para ver el resultado podeis usar el siguiente comando:
+Para que tengais una visión de como quedaría el proyecto aquí tenéis el ejemplo sobre [generación de código mediante el filtrado de Maven](/uploads/2011/06/23/srcgen.zip) completo. Para ver el resultado podeis usar el siguiente comando:
 
-    mvn -Dexec.classpathScope=runtime "-Dexec.args=-classpath %classpath es.excelsit.sourceGenerationExample.ClaseNormal" -Dexec.executable=/usr/lib/jdk/bin/java process-classes org.codehaus.mojo:exec-maven-plugin:1.2:exec
+    mvn -Dexec.classpathScope=runtime "-Dexec.args=-classpath %classpath es.frnd.srcgen.ClaseNormal" -Dexec.executable=java process-classes org.codehaus.mojo:exec-maven-plugin:1.2:exec

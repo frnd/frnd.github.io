@@ -15,8 +15,17 @@ var images = function() {
   .pipe(gulp.dest('build/images'));
 };
 
+var uploads = function() {
+  return gulp.src([
+    'uploads/**/*'
+  ])
+  .pipe(gulp.dest('build/uploads'));
+};
+
 gulp.task('images', ['clean'], images);
 gulp.task('images-watch', images);
+
+gulp.task('uploads', ['clean'], uploads);
 
 gulp.task('clean', function (cb) {
   return del(['build'], cb);
@@ -93,7 +102,7 @@ gulp.task('watch:prod', function () {
   gulp.watch(['./src/**/*.html', './src/**/*.md', './templates/**/*.html'], ['metalsmith:prod-watch']);
 });
 
-gulp.task('build', ['images', 'styles', 'scripts', 'metalsmith']);
-gulp.task('build:prod', ['images', 'styles', 'scripts', 'metalsmith:prod']);
+gulp.task('build', ['images', 'uploads', 'styles', 'scripts', 'metalsmith']);
+gulp.task('build:prod', ['images', 'uploads', 'styles', 'scripts', 'metalsmith:prod']);
 gulp.task('preview', ['watch', 'build', 'server']);
 gulp.task('default', ['watch', 'build', 'server']);

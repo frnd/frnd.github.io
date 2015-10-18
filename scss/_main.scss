@@ -262,7 +262,8 @@ code {
 pre {
   font-size: 1.125rem;
   line-height: 1.11;
-  overflow-x: scroll;
+  overflow-y: scroll;
+  overflow-x: visible;
   margin-bottom: 0.88em;
 
   code {
