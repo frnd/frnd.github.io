@@ -74,6 +74,9 @@ app.use(winstonExpressLogger.create(logger));</code></pre>
     req.logger.info(<span class="hljs-string">'Doing something'</span>);
     [...]
 }</code></pre>
+
+<p>Que generará un mensaje en el log de la siguiente forma:</p>
+<pre><code class="hljs"><span class="hljs-number">2015</span>-<span class="hljs-number">09</span>-<span class="hljs-number">28</span>T21:<span class="hljs-number">56</span>:<span class="hljs-number">52</span>.<span class="hljs-number">064</span>Z - info: <span class="hljs-type">Doing</span> something <span class="hljs-keyword">method</span>=<span class="hljs-type">GET</span>, url=/api/doing, ip=<span class="hljs-number">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>, userAgent=<span class="hljs-type">Chrome</span> <span class="hljs-number">46</span>.<span class="hljs-number">0</span>.<span class="hljs-number">2490</span> / <span class="hljs-type">Linux</span> <span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>, requestId=<span class="hljs-number">7</span>a91efe1-e851-<span class="hljs-number">421</span>c-b86a-f1cb2c3f2d25</code></pre>
   </article>
   
 </div>
