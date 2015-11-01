@@ -48,3 +48,9 @@ exports.controller = function(req, res) {
     [...]
 }
 ```
+
+Que generará un mensaje en el log de la siguiente forma:
+
+```
+2015-09-28T21:56:52.064Z - info: Doing something method=GET, url=/api/doing, ip=127.0.0.1, userAgent=Chrome 46.0.2490 / Linux 0.0.0, requestId=7a91efe1-e851-421c-b86a-f1cb2c3f2d25
+```

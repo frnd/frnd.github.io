@@ -119,7 +119,7 @@ module.exports = function(production) {
       }
       livereload();
     });
-}
+};
 
 function livereload() {
   //  this is a hack to force live reload

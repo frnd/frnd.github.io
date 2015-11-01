@@ -22,10 +22,18 @@ var uploads = function() {
   .pipe(gulp.dest('build/uploads'));
 };
 
+var statics = function() {
+  return gulp.src([
+    '*.html'
+  ])
+  .pipe(gulp.dest('build'));
+};
+
 gulp.task('images', ['clean'], images);
 gulp.task('images-watch', images);
 
 gulp.task('uploads', ['clean'], uploads);
+gulp.task('statics', ['clean'], statics);
 
 gulp.task('clean', function (cb) {
   return del(['build'], cb);
@@ -102,7 +110,7 @@ gulp.task('watch:prod', function () {
   gulp.watch(['./src/**/*.html', './src/**/*.md', './templates/**/*.html'], ['metalsmith:prod-watch']);
 });
 
-gulp.task('build', ['images', 'uploads', 'styles', 'scripts', 'metalsmith']);
-gulp.task('build:prod', ['images', 'uploads', 'styles', 'scripts', 'metalsmith:prod']);
+gulp.task('build', ['images', 'uploads', 'statics', 'styles', 'scripts', 'metalsmith']);
+gulp.task('build:prod', ['images', 'uploads', 'statics', 'styles', 'scripts', 'metalsmith:prod']);
 gulp.task('preview', ['watch', 'build', 'server']);
 gulp.task('default', ['watch', 'build', 'server']);
