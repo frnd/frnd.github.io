@@ -1,6 +1,6 @@
-{% extends './base.html' %}
+{% extends './default.html' %}
 
-{% block content %}
+{% block header %}
 <header class="full site-header px2 px-responsive">
   <div class="wrap">
     <div class="measure jumbotron">
@@ -11,7 +11,9 @@
     </div>
   </div>
 </header>
+{% endblock %}
 
+{% block content %}
 <div id="recent" class="post p2 p-responsive wrap" role="main">
   <div class="measure">
     {% if collections.posts.length > 0 %}

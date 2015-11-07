@@ -1,5 +1,9 @@
 {% extends './default.html' %}
 
+{% block header %}
+{% include 'partials/header.html' %}
+{% endblock %}
+
 {% block content %}
 <h1>Tag: <strong>{{tag}}</strong></h1>
 <div class="posts">
