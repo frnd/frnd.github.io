@@ -8,6 +8,10 @@ author: Fernando González
 tags: archetype,java,maven,platilla,proyecto
 ---
 
+Archetype: una plantilla para crear rapidamente la estructura de tu proyecto.
+
+<!-- more -->
+
 Maven es una herramienta muy útil para la gestión de proyectos. Facilita la gestión de dependencias del proyecto, pruebas unitarias, integración continua. Está basado en un sistema de plugins que ofrece la posibilidad de extender Maven para realizar cualquier tipo de tarea. En este artículo vamos a ver como se puede usar esta herramienta para generar una plantilla para acelerar el desarrollo de nuevos proyectos.
 
 Como ya hemos dicho, Maven es una herramienta para compilar y gestionar proyectos.  Es muy usada en proyectos Java, aunque es genérica y podría ser usada para cualquier lenguaje. Está basada en que el proyecto tiene una estructura de directorios específica que veremos posteriormente, aunque es totalmente configurable.

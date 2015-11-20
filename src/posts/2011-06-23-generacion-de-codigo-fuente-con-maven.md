@@ -8,7 +8,10 @@ author: Fernando González
 tags: maven,code,template
 ---
 
-En este artículo veremos como mediante la capacidad de filtrado de archivos que dispone Maven podremos generar una clase java que posteriormente se compilará formando parte del proyecto como si fuera un fichero de código normal.
+
+En este artículo veremos como mediante la capacidad de filtrado de archivos de Maven podremos generar clases java que posteriormente se compilará formando parte del proyecto como si fuera un fichero de código normal.
+
+<!-- more -->
 
 Este articulo requiere una serie de conocimientos sobre Maven. Para más información puedes visitar la [página del proyecto de Maven](http://maven.apache.org/).
 

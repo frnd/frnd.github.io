@@ -21,7 +21,7 @@ My expertise and interest lies in Java and Web technologies:
   </ul>
 </div>
 
-At this moment I'm learning how to develop full stack applications in JavasScript. I have published recently an extension for Express to log all request to a server with a unique id called  [winston-express-logger](https://github.com/frnd/winston-express-logger).
+At this moment I'm learning how to develop full stack applications in JavaScript. I have published recently an extension for Express to log all request to a server with a unique id called  [winston-express-logger](https://github.com/frnd/winston-express-logger).
 
 # Contacting Me
 You can contact me using one of the following methods. I do my best to be as accessible as possible.

@@ -66,7 +66,7 @@ module.exports = function(production) {
       collection: 'posts'
     }))
     .use(excerpts({
-      pruneLength: 160
+      pruneLength: 250
     }))
     .use(pagination({
       'collections.posts': {

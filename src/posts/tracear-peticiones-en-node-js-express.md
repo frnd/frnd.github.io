@@ -6,6 +6,9 @@ author: Fernando González
 tags: uuid, trace, logs, request, express, nodejs, winston
 ---
 
+Extension de NodeJS-Express para trazar mensajes de logs agrupando todos los provenientes de la misma request mediante un identificador único.
+
+<!-- more -->
 Recientemente, en un proyecto personal en NodeJs, me encontré con la necesidad de trazar logs agrupando todos los mensajes provenientes de la misma request. Buscando, vi varias alternativas pero necesitaba incluir varias dependencias que al final no encajaban del todo bien.
 
 Como solo necesitaba una excusa para crear mi primera extensión para nodejs, pues me puse manos a la obra. El resultado [winston-express-logger](https://github.com/frnd/winston-express-logger)  

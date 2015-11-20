@@ -11,6 +11,8 @@ tags: abap, asistente, dynpro, module, PAI, PBO, SAP, subrutina, table control
 El objetivo es conocer los conceptos más importantes a la hora de trabajar con un table control y crear uno mediante el
 asistente. También se estudiará el código que generado para las tareas más usuales y se darán alguno ejemplos.
 
+<!-- more -->
+
 Para usar correctamente este control hay que tener un punto clave muy claro. En cada ciclo PAI – PBO el Table Control
 mostrara el contenido de la tabla interna al que se haya asociado. Por lo tanto, si se hace una modificación en los
 datos que se están mostrando en la Dynpro estos hay que salvarlos en la tabla interna en el PAI para que al completarse
@@ -23,7 +25,8 @@ tarea se realiza en el PBO ya que es algo que se debe realizar justo antes de mo
 En el siguiente esquema vemos cada una de las acciones que se pueden realizar para manejar un Table Control y donde se
 deben realizar.
 
-![Alt Esquema general](/images/2010/08/1.png "Esquema general")
+<img src="/images/2010/08/1.png" alt="Esquema general" title="Esquema general" itemprop="image">
+
 
 ## Pasos previos para crear un Table Control.
 

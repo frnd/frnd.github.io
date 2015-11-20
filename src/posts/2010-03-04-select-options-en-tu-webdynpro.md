@@ -8,15 +8,18 @@ author: Fernando González
 tags: abap, asistente, dynpro, module, PAI, PBO, SAP, subrutina, table control
 ---
 
-Las SELECT-OPTIONS de las Dynpro ABAP proporcionan una forma muy sencilla de crear filtros complejos para realizar
-consultas. En las WebDynpro también disponemos de las capacidades que ofrece esa elemento de ABAP usando el
-componente WDR_SELECT_OPTIONS.
+SELECT-OPTIONS de las Dynpro ABAP son una forma muy sencilla de crear filtros complejos para realizar
+consultas pero tambien se pueden usar en las WebDynpro. Aquí te explicamos como.
+
+<!-- more -->
+
+En las WebDynpro también disponemos de las capacidades que ofrece ese elemento de ABAP usando el componente WDR_SELECT_OPTIONS.
 
 En este tutorial veremos un ejemplo sencillo y las diferentes opciones de personalización más comunes que ofrece.
 
 El objetivo que perseguimos es obtener una pantalla de selección como la que sigue:
 
-![Alt Resultado Final SELECT-OPTIONS en WebDynpro.](/images/2010/03/resultado-final.png "Resultado Final SELECT-OPTIONS en WebDynpro.")
+<img src="/images/2010/03/resultado-final.png" alt="Alt Resultado Final SELECT-OPTIONS en WebDynpro." title="Resultado Final SELECT-OPTIONS en WebDynpro." itemprop="image">
 
 En esta pantalla se han eliminado las opciones de selección extendidas pero estas salen por defecto y solo tendrás que
 eliminar unos parámetros para que aparezcan.

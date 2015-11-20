@@ -2,16 +2,13 @@
   <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>{%if title %}{{title}}{% else %}{{site.title}}{% endif %}</title>
+    <title>{%if title %}{{title}}{%elseif tag %}{{tag}}{% else %}{{site.title}}{% endif %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{baseUrl}}/images/favicon.ico">
     <link rel="stylesheet" href="{{baseUrl}}/css/style.css">
     <link rel="alternate" type="application/rss+xml" title="{{site.title}}" href="{{ baseUrl }}/rss.xml">
     {%if site.author %}
     <meta name="author" content="{{site.author}}">
-    {% endif %}
-    {%if excerpt %}
-    <meta name="description" content="{{excerpt}}">
     {% endif %}
     {%if tags %}
     <meta name="keywords" content="{% for tag in tags %}{{tag}}{% if !loop.last %}, {% endif %}{% endfor %}">
