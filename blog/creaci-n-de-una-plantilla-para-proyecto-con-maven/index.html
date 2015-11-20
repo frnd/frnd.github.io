@@ -11,9 +11,6 @@
     <meta name="author" content="Fernando González">
     
     
-    <meta name="description" content="Maven es una herramienta muy útil para la gestión de proyectos. Facilita la gestión de dependencias del proyecto, pruebas unitarias, integración continua. Está…">
-    
-    
     <meta name="keywords" content="archetype, java, maven, platilla, proyecto">
     
     <style>
@@ -90,16 +87,22 @@
       <div class="post p2 p-responsive wrap" role="main">
         <div class="measure">
           
-<div class="post">
+<div class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header mb2">
-    <h1>Creación de una plantilla para proyecto con Maven.</h1>
-    <span class="post-meta">Apr 9, 2011</span><br>
+    <h1 itemprop="headline">Creación de una plantilla para proyecto con Maven.</h1>
+    <span class="post-meta" itemprop="datePublished" content="2011-04-09">Apr 9, 2011</span>
+    <span class="post-meta small">por</span> <span class="post-meta small" itemprop="author">Fernando González</span><br>
     <span class="post-meta small">
-    <a href="/tags/archetype" title="archetype">archetype</a>, <a href="/tags/java" title="java">java</a>, <a href="/tags/maven" title="maven">maven</a>, <a href="/tags/platilla" title="platilla">platilla</a>, <a href="/tags/proyecto" title="proyecto">proyecto</a>
+    <a href="/tags/archetype" title="archetype"><span itemprop="keywords">archetype</span></a>, <a href="/tags/java" title="java"><span itemprop="keywords">java</span></a>, <a href="/tags/maven" title="maven"><span itemprop="keywords">maven</span></a>, <a href="/tags/platilla" title="platilla"><span itemprop="keywords">platilla</span></a>, <a href="/tags/proyecto" title="proyecto"><span itemprop="keywords">proyecto</span></a>
     </span>
   </header>
-  <article class="post-content py2">
-  <p>Maven es una herramienta muy útil para la gestión de proyectos. Facilita la gestión de dependencias del proyecto, pruebas unitarias, integración continua. Está basado en un sistema de plugins que ofrece la posibilidad de extender Maven para realizar cualquier tipo de tarea. En este artículo vamos a ver como se puede usar esta herramienta para generar una plantilla para acelerar el desarrollo de nuevos proyectos.</p>
+  <article class="post-content py2" itemprop="text">
+  
+  <h6 itemprop="alternativeHeadline">Archetype: una plantilla para crear rapidamente la estructura de tu proyecto.</h6>
+  
+  <p></p>
+<!-- more -->
+<p>Maven es una herramienta muy útil para la gestión de proyectos. Facilita la gestión de dependencias del proyecto, pruebas unitarias, integración continua. Está basado en un sistema de plugins que ofrece la posibilidad de extender Maven para realizar cualquier tipo de tarea. En este artículo vamos a ver como se puede usar esta herramienta para generar una plantilla para acelerar el desarrollo de nuevos proyectos.</p>
 <p>Como ya hemos dicho, Maven es una herramienta para compilar y gestionar proyectos.  Es muy usada en proyectos Java, aunque es genérica y podría ser usada para cualquier lenguaje. Está basada en que el proyecto tiene una estructura de directorios específica que veremos posteriormente, aunque es totalmente configurable.</p>
 <h2 id="creaci-n-de-una-plantilla-vac-a-">Creación de una plantilla vacía.</h2>
 <p>Una plantilla para Maven tiene la siguiente estructura:</p>

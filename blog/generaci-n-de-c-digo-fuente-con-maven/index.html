@@ -11,9 +11,6 @@
     <meta name="author" content="Fernando González">
     
     
-    <meta name="description" content="En este artículo veremos como mediante la capacidad de filtrado de archivos que dispone Maven podremos generar una clase java que posteriormente se compilará…">
-    
-    
     <meta name="keywords" content="maven, code, template">
     
     <style>
@@ -90,16 +87,21 @@
       <div class="post p2 p-responsive wrap" role="main">
         <div class="measure">
           
-<div class="post">
+<div class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header mb2">
-    <h1>Generación de código fuente con Maven.</h1>
-    <span class="post-meta">Jun 23, 2011</span><br>
+    <h1 itemprop="headline">Generación de código fuente con Maven.</h1>
+    <span class="post-meta" itemprop="datePublished" content="2011-06-23">Jun 23, 2011</span>
+    <span class="post-meta small">por</span> <span class="post-meta small" itemprop="author">Fernando González</span><br>
     <span class="post-meta small">
-    <a href="/tags/maven" title="maven">maven</a>, <a href="/tags/code" title="code">code</a>, <a href="/tags/template" title="template">template</a>
+    <a href="/tags/maven" title="maven"><span itemprop="keywords">maven</span></a>, <a href="/tags/code" title="code"><span itemprop="keywords">code</span></a>, <a href="/tags/template" title="template"><span itemprop="keywords">template</span></a>
     </span>
   </header>
-  <article class="post-content py2">
-  <p>En este artículo veremos como mediante la capacidad de filtrado de archivos que dispone Maven podremos generar una clase java que posteriormente se compilará formando parte del proyecto como si fuera un fichero de código normal.</p>
+  <article class="post-content py2" itemprop="text">
+  
+  <h6 itemprop="alternativeHeadline">En este artículo veremos como mediante la capacidad de filtrado de archivos de Maven podremos generar clases java que posteriormente se compilará formando parte del proyecto como si fuera un fichero de código normal.</h6>
+  
+  <p></p>
+<!-- more -->
 <p>Este articulo requiere una serie de conocimientos sobre Maven. Para más información puedes visitar la <a href="http://maven.apache.org/">página del proyecto de Maven</a>.</p>
 <p>Como ejemplo útil vamos a generar una clase con la información del nombre de proyecto y la versión que se han indicado en el fichero POM que luego podremos usar en nuestro código normal y así conseguir que ajustando la configuración
 estándar de Maven, automáticamente estos cambios queden presentes en el código fuente.</p>

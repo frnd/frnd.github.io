@@ -11,9 +11,6 @@
     <meta name="author" content="Fernando González">
     
     
-    <meta name="description" content="Recientemente, en un proyecto personal en NodeJs, me encontré con la necesidad de trazar logs agrupando todos los mensajes provenientes de la misma request…">
-    
-    
     <meta name="keywords" content="uuid, trace, logs, request, express, nodejs, winston">
     
     <style>
@@ -90,16 +87,22 @@
       <div class="post p2 p-responsive wrap" role="main">
         <div class="measure">
           
-<div class="post">
+<div class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header mb2">
-    <h1>NodeJS-Express: Agrupar mensajes en los logs mediante ID único</h1>
-    <span class="post-meta">Sep 28, 2015</span><br>
+    <h1 itemprop="headline">NodeJS-Express: Agrupar mensajes en los logs mediante ID único</h1>
+    <span class="post-meta" itemprop="datePublished" content="2015-09-28">Sep 28, 2015</span>
+    <span class="post-meta small">por</span> <span class="post-meta small" itemprop="author">Fernando González</span><br>
     <span class="post-meta small">
-    <a href="/tags/uuid" title="uuid">uuid</a>, <a href="/tags/trace" title="trace">trace</a>, <a href="/tags/logs" title="logs">logs</a>, <a href="/tags/request" title="request">request</a>, <a href="/tags/express" title="express">express</a>, <a href="/tags/nodejs" title="nodejs">nodejs</a>, <a href="/tags/winston" title="winston">winston</a>
+    <a href="/tags/uuid" title="uuid"><span itemprop="keywords">uuid</span></a>, <a href="/tags/trace" title="trace"><span itemprop="keywords">trace</span></a>, <a href="/tags/logs" title="logs"><span itemprop="keywords">logs</span></a>, <a href="/tags/request" title="request"><span itemprop="keywords">request</span></a>, <a href="/tags/express" title="express"><span itemprop="keywords">express</span></a>, <a href="/tags/nodejs" title="nodejs"><span itemprop="keywords">nodejs</span></a>, <a href="/tags/winston" title="winston"><span itemprop="keywords">winston</span></a>
     </span>
   </header>
-  <article class="post-content py2">
-  <p>Recientemente, en un proyecto personal en NodeJs, me encontré con la necesidad de trazar logs agrupando todos los mensajes provenientes de la misma request. Buscando, vi varias alternativas pero necesitaba incluir varias dependencias que al final no encajaban del todo bien.</p>
+  <article class="post-content py2" itemprop="text">
+  
+  <h6 itemprop="alternativeHeadline">Extension de NodeJS-Express para trazar mensajes de logs agrupando todos los provenientes de la misma request mediante un identificador único.</h6>
+  
+  <p></p>
+<!-- more -->
+<p>Recientemente, en un proyecto personal en NodeJs, me encontré con la necesidad de trazar logs agrupando todos los mensajes provenientes de la misma request. Buscando, vi varias alternativas pero necesitaba incluir varias dependencias que al final no encajaban del todo bien.</p>
 <p>Como solo necesitaba una excusa para crear mi primera extensión para nodejs, pues me puse manos a la obra. El resultado <a href="https://github.com/frnd/winston-express-logger">winston-express-logger</a>  </p>
 <p>Este paquete es un ‘middleware’ para Express que crea un logger de Winston en el objeto request, que si lo usamos añadirá a los metadatos propios de la llamada a log los siguientes:</p>
 <ul>

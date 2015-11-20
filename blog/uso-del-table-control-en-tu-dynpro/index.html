@@ -11,10 +11,6 @@
     <meta name="author" content="Fernando González">
     
     
-    <meta name="description" content="El objetivo es conocer los conceptos más importantes a la hora de trabajar con un table control y crear uno mediante el
-asistente. También se estudiará el…">
-    
-    
     <meta name="keywords" content="abap, asistente, dynpro, module, PAI, PBO, SAP, subrutina, table control">
     
     <style>
@@ -91,17 +87,22 @@ asistente. También se estudiará el…">
       <div class="post p2 p-responsive wrap" role="main">
         <div class="measure">
           
-<div class="post">
+<div class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header mb2">
-    <h1>Uso del Table Control en tu Dynpro.</h1>
-    <span class="post-meta">Aug 11, 2010</span><br>
+    <h1 itemprop="headline">Uso del Table Control en tu Dynpro.</h1>
+    <span class="post-meta" itemprop="datePublished" content="2010-08-11">Aug 11, 2010</span>
+    <span class="post-meta small">por</span> <span class="post-meta small" itemprop="author">Fernando González</span><br>
     <span class="post-meta small">
-    <a href="/tags/abap" title="abap">abap</a>, <a href="/tags/asistente" title="asistente">asistente</a>, <a href="/tags/dynpro" title="dynpro">dynpro</a>, <a href="/tags/module" title="module">module</a>, <a href="/tags/PAI" title="PAI">PAI</a>, <a href="/tags/PBO" title="PBO">PBO</a>, <a href="/tags/SAP" title="SAP">SAP</a>, <a href="/tags/subrutina" title="subrutina">subrutina</a>, <a href="/tags/table-control" title="table control">table control</a>
+    <a href="/tags/abap" title="abap"><span itemprop="keywords">abap</span></a>, <a href="/tags/asistente" title="asistente"><span itemprop="keywords">asistente</span></a>, <a href="/tags/dynpro" title="dynpro"><span itemprop="keywords">dynpro</span></a>, <a href="/tags/module" title="module"><span itemprop="keywords">module</span></a>, <a href="/tags/PAI" title="PAI"><span itemprop="keywords">PAI</span></a>, <a href="/tags/PBO" title="PBO"><span itemprop="keywords">PBO</span></a>, <a href="/tags/SAP" title="SAP"><span itemprop="keywords">SAP</span></a>, <a href="/tags/subrutina" title="subrutina"><span itemprop="keywords">subrutina</span></a>, <a href="/tags/table-control" title="table control"><span itemprop="keywords">table control</span></a>
     </span>
   </header>
-  <article class="post-content py2">
-  <p>El objetivo es conocer los conceptos más importantes a la hora de trabajar con un table control y crear uno mediante el
-asistente. También se estudiará el código que generado para las tareas más usuales y se darán alguno ejemplos.</p>
+  <article class="post-content py2" itemprop="text">
+  
+  <h6 itemprop="alternativeHeadline">El objetivo es conocer los conceptos más importantes a la hora de trabajar con un table control y crear uno mediante el
+asistente. También se estudiará el código que generado para las tareas más usuales y se darán alguno ejemplos.</h6>
+  
+  <p></p>
+<!-- more -->
 <p>Para usar correctamente este control hay que tener un punto clave muy claro. En cada ciclo PAI – PBO el Table Control
 mostrara el contenido de la tabla interna al que se haya asociado. Por lo tanto, si se hace una modificación en los
 datos que se están mostrando en la Dynpro estos hay que salvarlos en la tabla interna en el PAI para que al completarse
@@ -111,7 +112,7 @@ según una condición en alguno de los campos de la fila en la que se encuentra 
 tarea se realiza en el PBO ya que es algo que se debe realizar justo antes de mostrar la tabla.</p>
 <p>En el siguiente esquema vemos cada una de las acciones que se pueden realizar para manejar un Table Control y donde se
 deben realizar.</p>
-<p><img src="/images/2010/08/1.png" alt="Alt Esquema general" title="Esquema general"></p>
+<p><img src="/images/2010/08/1.png" alt="Esquema general" title="Esquema general" itemprop="image"></p>
 <h2 id="pasos-previos-para-crear-un-table-control-">Pasos previos para crear un Table Control.</h2>
 <p>Crear un Table Control es un proceso muy sencillo usando el Wizard que tenemos en el entorno de desarrollo, pero antes
 de ejecutar este Wizard hay que crear una serie de elementos en nuestro código:</p>

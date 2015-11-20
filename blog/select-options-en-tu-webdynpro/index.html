@@ -11,10 +11,6 @@
     <meta name="author" content="Fernando González">
     
     
-    <meta name="description" content="Las SELECT-OPTIONS de las Dynpro ABAP proporcionan una forma muy sencilla de crear filtros complejos para realizar
-consultas. En las WebDynpro también…">
-    
-    
     <meta name="keywords" content="abap, asistente, dynpro, module, PAI, PBO, SAP, subrutina, table control">
     
     <style>
@@ -91,21 +87,26 @@ consultas. En las WebDynpro también…">
       <div class="post p2 p-responsive wrap" role="main">
         <div class="measure">
           
-<div class="post">
+<div class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header mb2">
-    <h1>Select Options en tu WebDynpro.</h1>
-    <span class="post-meta">Mar 14, 2010</span><br>
+    <h1 itemprop="headline">Select Options en tu WebDynpro.</h1>
+    <span class="post-meta" itemprop="datePublished" content="2010-03-14">Mar 14, 2010</span>
+    <span class="post-meta small">por</span> <span class="post-meta small" itemprop="author">Fernando González</span><br>
     <span class="post-meta small">
-    <a href="/tags/abap" title="abap">abap</a>, <a href="/tags/asistente" title="asistente">asistente</a>, <a href="/tags/dynpro" title="dynpro">dynpro</a>, <a href="/tags/module" title="module">module</a>, <a href="/tags/PAI" title="PAI">PAI</a>, <a href="/tags/PBO" title="PBO">PBO</a>, <a href="/tags/SAP" title="SAP">SAP</a>, <a href="/tags/subrutina" title="subrutina">subrutina</a>, <a href="/tags/table-control" title="table control">table control</a>
+    <a href="/tags/abap" title="abap"><span itemprop="keywords">abap</span></a>, <a href="/tags/asistente" title="asistente"><span itemprop="keywords">asistente</span></a>, <a href="/tags/dynpro" title="dynpro"><span itemprop="keywords">dynpro</span></a>, <a href="/tags/module" title="module"><span itemprop="keywords">module</span></a>, <a href="/tags/PAI" title="PAI"><span itemprop="keywords">PAI</span></a>, <a href="/tags/PBO" title="PBO"><span itemprop="keywords">PBO</span></a>, <a href="/tags/SAP" title="SAP"><span itemprop="keywords">SAP</span></a>, <a href="/tags/subrutina" title="subrutina"><span itemprop="keywords">subrutina</span></a>, <a href="/tags/table-control" title="table control"><span itemprop="keywords">table control</span></a>
     </span>
   </header>
-  <article class="post-content py2">
-  <p>Las SELECT-OPTIONS de las Dynpro ABAP proporcionan una forma muy sencilla de crear filtros complejos para realizar
-consultas. En las WebDynpro también disponemos de las capacidades que ofrece esa elemento de ABAP usando el
-componente WDR_SELECT_OPTIONS.</p>
+  <article class="post-content py2" itemprop="text">
+  
+  <h6 itemprop="alternativeHeadline">SELECT-OPTIONS de las Dynpro ABAP son una forma muy sencilla de crear filtros complejos para realizar
+consultas pero tambien se pueden usar en las WebDynpro. Aquí te explicamos como.</h6>
+  
+  <p></p>
+<!-- more -->
+<p>En las WebDynpro también disponemos de las capacidades que ofrece ese elemento de ABAP usando el componente WDR_SELECT_OPTIONS.</p>
 <p>En este tutorial veremos un ejemplo sencillo y las diferentes opciones de personalización más comunes que ofrece.</p>
 <p>El objetivo que perseguimos es obtener una pantalla de selección como la que sigue:</p>
-<p><img src="/images/2010/03/resultado-final.png" alt="Alt Resultado Final SELECT-OPTIONS en WebDynpro." title="Resultado Final SELECT-OPTIONS en WebDynpro."></p>
+<p><img src="/images/2010/03/resultado-final.png" alt="Alt Resultado Final SELECT-OPTIONS en WebDynpro." title="Resultado Final SELECT-OPTIONS en WebDynpro." itemprop="image"></p>
 <p>En esta pantalla se han eliminado las opciones de selección extendidas pero estas salen por defecto y solo tendrás que
 eliminar unos parámetros para que aparezcan.</p>
 <h2 id="como-usar-el-componente-wdr_select_options">Como usar el componente WDR_SELECT_OPTIONS</h2>
