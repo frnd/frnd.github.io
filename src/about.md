@@ -21,7 +21,11 @@ My expertise and interest lies in Java and Web technologies:
   </ul>
 </div>
 
-At this moment I'm learning how to develop full stack applications in JavaScript. I have published recently an extension for Express to log all request to a server with a unique id called  [winston-express-logger](https://github.com/frnd/winston-express-logger).
+At this moment I'm learning how to develop full stack applications in JavaScript. Here some projects hosted on github:
+
+* An extension for Express to log all request to a server with a unique id called [winston-express-logger](https://github.com/frnd/winston-express-logger).
+* A [Metalsmith](http://metalsmith.io) plugin to assign each page with an image cover called [metalsmith-imagecover](https://github.com/frnd/metalsmith-imagecover).
+* Also you can find the sources of this blog [frnd.github.io](https://github.com/frnd/frnd.github.io)
 
 # Contacting Me
 You can contact me using one of the following methods. I do my best to be as accessible as possible.
