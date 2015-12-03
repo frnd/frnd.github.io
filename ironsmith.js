@@ -17,6 +17,7 @@ var join = require('path').join;
 var config = require('./config.js');
 var http = require('http');
 var sitemap = require('metalsmith-sitemap');
+var imagecover = require('metalsmith-imagecover');
 
 swig.setDefaults({
   cache: false
@@ -58,6 +59,7 @@ module.exports = function(production) {
       gfm: true,
       tables: true
     }))
+    .use(imagecover())
     .use(permalinks({
       pattern: 'blog/:title',
       relative: false

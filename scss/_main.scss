@@ -383,6 +383,12 @@ h6,
     border-bottom: thin solid #f3f3f3;
   }
 
+  .post .cover {
+    float:left;
+    width: 7em;
+    padding-right: 10px;
+  }
+
   .posts .post:last-child {
     border-bottom: none;
     margin-bottom: .333em;
@@ -437,6 +443,12 @@ h6,
     text-align: center;
     float: none;
   }
+
+  .post .cover {
+    float:left;
+    width: 9em;
+    padding-right: 10px;
+  }
 }
 
 @media screen and (min-width: 64em) {
@@ -478,6 +490,12 @@ h6,
     border-bottom: none;
     margin-bottom: .666em;
     padding-bottom: 0;
+  }
+
+  .post .cover {
+    float:left;
+    width: 9em;
+    padding-right: 10px;
   }
 }
 
