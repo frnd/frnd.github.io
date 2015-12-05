@@ -1,0 +1,156 @@
+ <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>frnd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml" title="frnd" href="/rss.xml">
+    
+    <meta name="author" content="Fernando González">
+    
+    
+    <style>
+      .full {
+        background: url("/images/madrid-by-night.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+      .full body,
+      .full .jumbotron {
+        background: transparent;
+      }
+      .full .jumbotron * {
+        color: white;
+      }
+      .full .jumbotron {
+        padding-top: 10rem;
+        padding-bottom: 5rem;
+      }
+      .button {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        -o-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+        -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        -o-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        background-color: #192024;
+        border-radius: 6px;
+        border: 0;
+        color: #fff !important;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 0.125em;
+        font-size: 0.9em;
+        height: 2.85em;
+        line-height: 2.85em;
+        padding: 0 1.75em;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        text-indent: 0.25em;
+      }
+      .button.alt {
+        background-color: transparent;
+        box-shadow: inset 0 0 0 1px rgba(144, 144, 144, 0.75);
+        color: #fff !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-wrap">
+      
+<header class="full site-header px2 px-responsive">
+  <div class="wrap">
+    <div class="measure jumbotron">
+      <h2 class="heading center-block">HELLO!, I'm Fernando.</h2>
+      <p>A web developer from Madrid. Want to know more about me?</p>
+      <a href="/about" class="button">READ MORE</a>
+      <a href="#recent" class="button alt">Or visit my Blog! (Spaish)</a>
+    </div>
+  </div>
+</header>
+
+      <div class="post p2 p-responsive wrap" role="main">
+        <div class="measure">
+          
+<div id="recent" class="post p2 p-responsive wrap" role="main">
+  <div class="measure">
+    
+    <div class="posts">
+      <div class="post">
+        <h2>Recent Posts</h2>
+      </div>
+        <div class="post">
+        <p class="post-meta">Sep 28, 2015</p>
+        <a href="/blog/nodejs-express-agrupar-mensajes-en-los-logs-mediante-id-nico" class="post-link">
+          <h3 class="h2 post-title">NodeJS-Express: Agrupar mensajes en los logs mediante ID único</h3>
+        </a>
+        <p class="post-summary">
+          Extension de NodeJS-Express para trazar mensajes de logs agrupando todos los provenientes de la misma request mediante un identificador único.
+        </p>
+    </div>
+       <div class="post">
+        <p class="post-meta">Jun 23, 2011</p>
+        <a href="/blog/generaci-n-de-c-digo-fuente-con-maven" class="post-link">
+          <h3 class="h2 post-title">Generación de código fuente con Maven.</h3>
+        </a>
+        <p class="post-summary">
+          En este artículo veremos como mediante la capacidad de filtrado de archivos de Maven podremos generar clases java que posteriormente se compilará formando parte del proyecto como si fuera un fichero de código normal.
+        </p>
+    </div>
+       <div class="post">
+        <p class="post-meta">Apr 9, 2011</p>
+        <a href="/blog/creaci-n-de-una-plantilla-para-proyecto-con-maven" class="post-link">
+          <h3 class="h2 post-title">Creación de una plantilla para proyecto con Maven.</h3>
+        </a>
+        <p class="post-summary">
+          Archetype: una plantilla para crear rapidamente la estructura de tu proyecto.
+        </p>
+    </div>
+         
+  </div>
+  <div class="pagination clearfix mb1 mt4">
+    <div class="right">
+      <a class="pagination-item" href="/blog">view all posts</a>
+    </div>
+  </div>
+   
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+  <div class="p2 wrap">
+    <div class="measure mt1 center">
+      <small>
+        built with <a href="http://www.metalsmith.io/">metalsmith</a> & theme from <a href="https://github.com/johnotander/pixyll">pixyll</a>
+      </small>
+    </div>
+  </div>
+</footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="/js/jquery.easing.js"></script>
+    <script src="/js/eu-cookie-law.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', '12345678', 'auto');
+  ga('send', 'pageview');
+</script>
+    
+  </body>
+</html>
