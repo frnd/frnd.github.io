@@ -10,20 +10,21 @@ Hello! my name is Fernando González. I'm 34-years old web developer and softwar
 My expertise and interest lies in Java and Web technologies:
 <div class="columns-3">
   <ul>
-    <li>Java </li>
-    <li>JSF - Primefaces </li>
-    <li>JPA - Hibernate </li>
-    <li>Oracle/PostgreSQL </li>
-    <li>Spring </li>
-    <li>RESTEasy </li>
-    <li>AngularJS </li>
-    <li>Maven and Jenkins </li>
+    <li>Java</li>
+    <li>JSF - Primefaces</li>
+    <li>JPA - Hibernate</li>
+    <li>Oracle/PostgreSQL</li>
+    <li>Spring</li>
+    <li>RESTEasy</li>
+    <li>AngularJS</li>
+    <li>Maven and Jenkins</li>
+    <li>NodeJS</li>
   </ul>
 </div>
 
 At this moment I'm learning how to develop full stack applications in JavaScript. Here some projects hosted on github:
 
-* An extension for Express to log all request to a server with a unique id called [winston-express-logger](https://github.com/frnd/winston-express-logger).
+* An extension for Express to log all request to a server with a unique id called [winston-express-logger](https://github.com/frnd/winston-express-logger). This package is not published in npm because is still in beta.
 * A [Metalsmith](http://metalsmith.io) plugin to assign each page with an image cover called [metalsmith-imagecover](https://github.com/frnd/metalsmith-imagecover).
 * Also you can find the sources of this blog [frnd.github.io](https://github.com/frnd/frnd.github.io)
 
