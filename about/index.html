@@ -90,7 +90,20 @@
     <h1 class="h2">About</h1>
   </header>
   <article class="post-content">
-  <p>Hello! my name is Fernando González. I’m 34-years old web developer and software engineer currently based on Madrid (Spain).</p>
+  <p>Hello! my name is Fernando González. I’m <span id="years">36</span>-years old web developer and software engineer currently based on Madrid (Spain).</p>
+<script>
+(function() {
+  var today = new Date();
+    var birthDate = new Date('11-04-1979');
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    window.document.getElementById('years').innerHTML = age;
+})();
+</script>
+
 <p>My expertise and interest lies in Java and Web technologies:</p>
 <div class="columns-3">
   <ul>
@@ -100,17 +113,39 @@
     <li>Oracle/PostgreSQL</li>
     <li>Spring</li>
     <li>RESTEasy</li>
-    <li>AngularJS</li>
     <li>Maven and Jenkins</li>
+  </ul>
+</div>
+
+<p>I love learning new technologies and at this moment I’m focused on JavaScript:  </p>
+<div class="columns-3">
+  <ul>
+    <li>AngularJS</li>
+    <li>Ionic (Cordova)</li>
     <li>NodeJS</li>
   </ul>
 </div>
 
-<p>At this moment I’m learning how to develop full stack applications in JavaScript. Here some projects hosted on github:</p>
+<p>But I have some other in the backlog:</p>
+<div class="columns-3">
+  <ul>
+    <li>Microservices</li>
+    <li>TypeScript</li>
+    <li>AngularJS 2</li>
+    <li>Apache Usergrid</li>
+  </ul>
+</div>
+
+<p>Here some projects hosted on github:</p>
 <ul>
 <li>An extension for Express to log all request to a server with a unique id called <a href="https://github.com/frnd/winston-express-logger">winston-express-logger</a>. This package is not published in npm because is still in beta.</li>
 <li>A <a href="http://metalsmith.io">Metalsmith</a> plugin to assign each page with an image cover called <a href="https://github.com/frnd/metalsmith-imagecover">metalsmith-imagecover</a>.</li>
 <li>Also you can find the sources of this blog <a href="https://github.com/frnd/frnd.github.io">frnd.github.io</a></li>
+</ul>
+<h1 id="personal-manifesto-">Personal Manifesto:</h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/KISS_principle">KISS principle</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Reinventing_the_wheel">Do not reinvent the wheel</a></li>
 </ul>
 <h1 id="contacting-me">Contacting Me</h1>
 <p>You can contact me using one of the following methods. I do my best to be as accessible as possible.</p>
