@@ -5,7 +5,20 @@ priority: 3
 linkTitle: About
 ---
 
-Hello! my name is Fernando González. I'm 34-years old web developer and software engineer currently based on Madrid (Spain).
+Hello! my name is Fernando González. I'm <span id="years">36</span>-years old web developer and software engineer currently based on Madrid (Spain).
+
+<script>
+(function() {
+  var today = new Date();
+    var birthDate = new Date('11-04-1979');
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    window.document.getElementById('years').innerHTML = age;
+})();
+</script>
 
 My expertise and interest lies in Java and Web technologies:
 <div class="columns-3">
@@ -16,17 +29,40 @@ My expertise and interest lies in Java and Web technologies:
     <li>Oracle/PostgreSQL</li>
     <li>Spring</li>
     <li>RESTEasy</li>
-    <li>AngularJS</li>
     <li>Maven and Jenkins</li>
+  </ul>
+</div>
+
+I love learning new technologies and at this moment I'm focused on JavaScript:  
+<div class="columns-3">
+  <ul>
+    <li>AngularJS</li>
+    <li>Ionic (Cordova)</li>
     <li>NodeJS</li>
   </ul>
 </div>
 
-At this moment I'm learning how to develop full stack applications in JavaScript. Here some projects hosted on github:
+But I have some other in the backlog:
+
+<div class="columns-3">
+  <ul>
+    <li>Microservices</li>
+    <li>TypeScript</li>
+    <li>AngularJS 2</li>
+    <li>Apache Usergrid</li>
+  </ul>
+</div>
+
+Here some projects hosted on github:
 
 * An extension for Express to log all request to a server with a unique id called [winston-express-logger](https://github.com/frnd/winston-express-logger). This package is not published in npm because is still in beta.
 * A [Metalsmith](http://metalsmith.io) plugin to assign each page with an image cover called [metalsmith-imagecover](https://github.com/frnd/metalsmith-imagecover).
 * Also you can find the sources of this blog [frnd.github.io](https://github.com/frnd/frnd.github.io)
+
+# Personal Manifesto:
+
+* [KISS principle](https://en.wikipedia.org/wiki/KISS_principle)
+* [Do not reinvent the wheel](https://en.wikipedia.org/wiki/Reinventing_the_wheel)
 
 # Contacting Me
 You can contact me using one of the following methods. I do my best to be as accessible as possible.
