@@ -42,16 +42,7 @@ I love learning new technologies and at this moment I'm focused on JavaScript:
   </ul>
 </div>
 
-But I have some other in the backlog:
-
-<div class="columns-3">
-  <ul>
-    <li>Microservices</li>
-    <li>TypeScript</li>
-    <li>AngularJS 2</li>
-    <li>Apache Usergrid</li>
-  </ul>
-</div>
+But I have some other in the backlog: Microservices, TypeScript, AngularJS 2, Apache Usergrid.
 
 Here some projects hosted on github:
 
@@ -59,10 +50,13 @@ Here some projects hosted on github:
 * A [Metalsmith](http://metalsmith.io) plugin to assign each page with an image cover called [metalsmith-imagecover](https://github.com/frnd/metalsmith-imagecover).
 * Also you can find the sources of this blog [frnd.github.io](https://github.com/frnd/frnd.github.io)
 
+<!--
 # Personal Manifesto:
 
 * [KISS principle](https://en.wikipedia.org/wiki/KISS_principle)
 * [Do not reinvent the wheel](https://en.wikipedia.org/wiki/Reinventing_the_wheel)
+
+-->
 
 # Contacting Me
 You can contact me using one of the following methods. I do my best to be as accessible as possible.

@@ -170,3 +170,74 @@
  {
   display: inline-block;
 }
+
+@media print  {
+  .site-header,
+  .eu-cookies-popup,
+  .footer{
+    display: none;
+  }
+  .cv h1,
+  .cv h2{
+    margin-top: 0;
+  }
+  .cv p, .cv ul{
+    font-size: small;
+  }
+  .cv blockquote {
+    padding: 0;
+  }
+
+}
+
+.cv h1 {
+  font-size: medium;
+}
+
+.cv h2 {
+  font-size: small;
+}
+
+.cv header {
+  text-align: center;
+}
+
+.cv .column-left{ float: left; width: 33%; }
+.cv .column-right{ float: right; width: 33%; }
+.cv .column-center{ display: inline-block; width: 33%; }
+
+/*
+.cv .measure div.post {
+  background-color: black;
+  font-family: monospace;
+}
+
+
+.cv h1{
+  font-size: 1.18rem;
+  display: inline;
+}
+
+.cv header.post-header::before,
+.cv header.post-header::after,
+{
+  content: "MAN(1)"
+}
+.cv header.post-header::before{
+  float: left;
+}
+
+.cv header.post-header::after{
+  float: right;
+}
+
+.cv article h1,
+.cv article h2{
+  font-size: 1.18rem;
+  text-transform: uppercase;
+}
+
+.cv article p{
+  margin-left: 10px;
+}
+*/
