@@ -66,24 +66,24 @@ You can contact me using one of the following methods. I do my best to be as acc
       <p>fgo [at] outlook.com</p>
     <form action="http://getsimpleform.com/messages?form_api_token=a8edc001288720995f5b85bda98dee55" method="post" style="display:inline-block;">
             <!-- the redirect_to is optional, the form will redirect to the referrer on submission -->
-            <input type='hidden' name='redirect_to' value='./thank-you.html>' />
+            <input type='hidden' name='redirect_to' value='http://frnd.github.io/thank-you/' />
             <!-- all your input fields here.... -->
             <div class="form-group">
                 <label for="yourName" class="col-sm-4 control-label">Your Name</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="yourName" placeholder="Your Name">
+                    <input type="text" class="form-control" id="yourName" placeholder="Your Name" required="true">
                 </div>
             </div>
             <div class="form-group">
                 <label for="yourEmail" class="col-sm-4 control-label">Your Email</label>
                 <div class="col-sm-8">
-                    <input type="email" class="form-control" id="yourEmail" placeholder="Your Email">
+                    <input type="email" class="form-control" id="yourEmail" placeholder="Your Email" required="true">
                 </div>
             </div>
             <div class="form-group">
                 <label for="yourMessage" class="col-sm-4 control-label">Your Message</label>
                 <div class="col-sm-8">
-                    <textarea class="form-control" id="yourMessage" rows="3"></textarea>
+                    <textarea class="form-control" id="yourMessage" rows="3"  required="true"></textarea>
                 </div>
             </div>
         <div class="form-group">
