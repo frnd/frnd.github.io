@@ -61,6 +61,12 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>http://frnd.github.io/blog/pwa-con-ionic3-y-workbox-en-2-patadas</loc>
+        <lastmod>2018-06-02</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>http://frnd.github.io/blog/nodejs-express-agrupar-mensajes-en-los-logs-mediante-id-nico</loc>
         <lastmod>2017-11-09</lastmod>
         <changefreq>daily</changefreq>
@@ -68,13 +74,19 @@
     </url>
     <url>
         <loc>http://frnd.github.io/blog/1/index.html</loc>
-        <lastmod>2018-03-07</lastmod>
+        <lastmod>2018-06-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>http://frnd.github.io/blog/index.html</loc>
-        <lastmod>2018-03-07</lastmod>
+        <lastmod>2018-06-15</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>http://frnd.github.io/blog/2/index.html</loc>
+        <lastmod>2018-06-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>

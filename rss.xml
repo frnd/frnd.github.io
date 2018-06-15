@@ -1,5 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[frnd]]></title><description><![CDATA[frnd]]></description><link>http://frnd.github.io</link><generator>metalsmith-feed</generator><lastBuildDate>Wed, 07 Mar 2018 08:05:42 GMT</lastBuildDate><atom:link href="http://frnd.github.io/rss.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Fernando González]]></author><item><title><![CDATA[NodeJS-Express: Agrupar mensajes en los logs mediante ID único]]></title><description><![CDATA[<p>Extension de NodeJS-Express para trazar mensajes de logs agrupando todos los provenientes de la misma request mediante un identificador único.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[frnd]]></title><description><![CDATA[frnd]]></description><link>http://frnd.github.io</link><generator>metalsmith-feed</generator><lastBuildDate>Fri, 15 Jun 2018 12:14:28 GMT</lastBuildDate><atom:link href="http://frnd.github.io/rss.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Fernando González]]></author><item><title><![CDATA[PWA con Ionic3 y Workbox en 2 patadas.]]></title><description><![CDATA[<p>En 2 sencillos pasos vamos a crear una aplicación web progresiva partiendo de un proyecto en ionic 3. Usaremos Workbox ya que ofrece muchas posibilidades.</p>
+<!-- more -->
+<p>Para este artículo vamos a partir de un proyecto de ionic 3 ya creado. Puedes crearte uno facilmente con ionic-cli:</p>
+<pre><code class="hljs">ionic <span class="hljs-built_in">start</span> ionic3-pwa-workbox blank</code></pre>
+
+<h2 id="primera-patada-activar-el-service-worker">Primera patada: Activar el service worker</h2>
+<p>Para este paso vamos al fichero <code>./src/index.html</code> y descomentamos el siguiente código:</p>
+<pre><code class="hljs">&lt;script&gt;
+    <span class="hljs-keyword">if</span> (<span class="hljs-string">'serviceWorker'</span> <span class="hljs-keyword">in</span> navigator) {
+      navigator.serviceWorker.register(<span class="hljs-string">'service-worker.js'</span>)
+        .<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'service worker installed'</span>))
+        .<span class="hljs-keyword">catch</span>(err =&gt; <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error'</span>, err));
+    }
+&lt;/script&gt;</code></pre>
+
+<p>Desde este momento ya tenemos el service worker activo con lo que ciertas rutas estarán cacheadas. Podemos verlo si lanzamos <code>ìonic serve</code> y vamos a la consola:</p>
+<p><img src="/images/2018/05/pwa-ionic3-workbox-1.png" alt="service worker installed" title="service worker installed"></p>
+<h2 id="segunda-patada-usar-workbox">Segunda patada: usar Workbox</h2>
+<p>primero vamos a instalar workbox con npm:</p>
+<pre><code class="hljs">npm <span class="hljs-tag">i</span> workbox-sw --save</code></pre>
+
+<p>Y ahora vamos a indicar a ionic que nos copie este fichero al hacer el build extendiendo la configuración por defecto. Crearemos un fichero al que lamaremos <code>/config/copy.config.js</code> con el siguiente contenido:</p>
+<pre><code class="hljs"><span class="xml">module.exports = </span><span class="hljs-expression">{
+  <span class="hljs-variable">copyWorkboxSw</span>: {
+    <span class="hljs-variable">src</span>: ['<span class="hljs-end-block">/node</span>_<span class="hljs-variable">modules</span><span class="hljs-end-block">/workbox-sw</span><span class="hljs-end-block">/build</span><span class="hljs-end-block">/workbox-sw.js</span>'],
+    <span class="hljs-variable">dest</span>: ''
+  }</span><span class="xml">
+}</span></code></pre>
+
+<p>Indicaremos en <code>package.json</code> el siguiente codigo para indicarle a ionic que tambien use la configuración que hemos creado:</p>
+<pre><code class="hljs"><span class="hljs-string">"config"</span>: {
+    <span class="hljs-string">"ionic_copy"</span>: <span class="hljs-string">"./config/copy.config.js"</span>
+  }</code></pre>
+
+<p>Y modificaremos el service worker creado por ionic en nuestro proyecto por uno usando Workbox:</p>
+<pre><code class="hljs"><span class="hljs-pi">'use strict'</span>;
+importScripts(<span class="hljs-string">'./build/workbox-sw.js'</span>);
+
+<span class="hljs-comment">/*
+This is our code to cache static files.
+*/</span>
+self.workbox.precaching.precacheAndRoute([
+    <span class="hljs-string">'./build/main.js'</span>,
+    <span class="hljs-string">'./build/vendor.js'</span>,
+    <span class="hljs-string">'./build/main.css'</span>,
+    <span class="hljs-string">'./build/polyfills.js'</span>,
+    <span class="hljs-string">'index.html'</span>,
+    <span class="hljs-string">'manifest.json'</span>
+    ]
+);</code></pre>
+
+<h2 id="para-terminar-patapum-pariba-y-test-con-lighthouse-">Para terminar: patapum pariba y test con Lighthouse.</h2>
+<p>Para este artículo voy a usar gh-pages pero cualquier otro hosting que ofrezcan https sería valido.</p>
+<p>Mediante los siguientes comandos construiremos la aplicación para subirla a producción.</p>
+<pre><code class="hljs">ionic cordova <span class="hljs-built_in">platform</span> <span class="hljs-built_in">add</span> browser
+ionic cordova build browser <span class="hljs-comment">--prod</span></code></pre>
+
+<p>Ahora tendremos nuestra aplicación en  <code>./platforms/browser/www/</code> asi que subiremos este directorio a nuestra rama gh-pages (recuerda usar tu nombre de usuario y tu repositorio en github):</p>
+<pre><code class="hljs">cd platforms<span class="hljs-regexp">/browser/</span>www/
+git init
+git remote add origin <span class="hljs-string">https:</span><span class="hljs-comment">//github.com/frnd/ionic3-pwa-workbox.git</span>
+git add --all
+git commit -m <span class="hljs-string">"production build"</span>
+git push origin <span class="hljs-string">master:</span>gh-pages -f</code></pre>
+
+<p>Nuestra PWA está disponible en (<a href="https://frnd.github.io/ionic3-pwa-workbox/)[https://frnd.github.io/ionic3-pwa-workbox/">https://frnd.github.io/ionic3-pwa-workbox/)[https://frnd.github.io/ionic3-pwa-workbox/</a>]. En la siguiente captura puedes ver los resultados que da Lighthouse.</p>
+<p><img src="/images/2018/05/pwa-ionic3-workbox-2.png" alt="Resultados Lighthouse" title="Resultados Lighthouse"></p>
+<h2 id="codigo-fuente-y-enlaces-">Codigo fuente y enlaces.</h2>
+<p>Puedes ver el codigo fuente de este royecto en (github)[<a href="https://github.com/frnd/ionic3-pwa-workbox">https://github.com/frnd/ionic3-pwa-workbox</a>] y acceder al ejemplo (ionic3-pwa-workbox)[<a href="https://frnd.github.io/ionic3-pwa-workbox/">https://frnd.github.io/ionic3-pwa-workbox/</a>]. Mas información de interés:</p>
+<ul>
+<li>(ionic)[<a href="https://ionicframework.com/">https://ionicframework.com/</a>]</li>
+<li>(Progressive Web Apps)[<a href="https://developers.google.com/web/progressive-web-apps/">https://developers.google.com/web/progressive-web-apps/</a>]</li>
+<li>(Workbox)[<a href="https://developers.google.com/web/tools/workbox/#get-started">https://developers.google.com/web/tools/workbox/#get-started</a>]</li>
+</ul>
+<p>Para problemas o comentarios, puedes crear un tema en el github del proyecto <a href="https://github.com/frnd/ionic3-pwa-workbox/issues/new">https://github.com/frnd/ionic3-pwa-workbox/issues/new</a></p>
+]]></description><link>http://frnd.github.io/blog/pwa-con-ionic3-y-workbox-en-2-patadas</link><guid isPermaLink="true">http://frnd.github.io/blog/pwa-con-ionic3-y-workbox-en-2-patadas</guid><dc:creator><![CDATA[Fernando González]]></dc:creator><pubDate>Tue, 01 May 2018 00:00:00 GMT</pubDate></item><item><title><![CDATA[NodeJS-Express: Agrupar mensajes en los logs mediante ID único]]></title><description><![CDATA[<p>Extension de NodeJS-Express para trazar mensajes de logs agrupando todos los provenientes de la misma request mediante un identificador único.</p>
 <!-- more -->
 <p>Recientemente, en un proyecto personal en NodeJs, me encontré con la necesidad de trazar logs agrupando todos los mensajes provenientes de la misma request. Buscando, vi varias alternativas pero necesitaba incluir varias dependencias que al final no encajaban del todo bien.</p>
 <p>Como solo necesitaba una excusa para crear mi primera extensión para nodejs, pues me puse manos a la obra. El resultado <a href="https://github.com/frnd/winston-express-logger">winston-express-logger</a>  </p>
