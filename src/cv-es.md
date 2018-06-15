@@ -13,7 +13,7 @@ styleClass: cv
 
 # Professional profile
 
-A qualified and experienced Java developer who is positive, proactive and self-motivated, easily adaptable to new situations who performs effectively within a team.
+Programador apasionado entusiasta y algo cascarrabias. Actualmente trabajo con las siguientes tecnologías:
 
 <div class="container">
    <div class="column-left">
@@ -26,13 +26,13 @@ A qualified and experienced Java developer who is positive, proactive and self-m
    <div class="column-center">
    <ul>
      <li>Spring Boot</li>
-     <li>Elasticsearch</li>
+     <li>Logstash, Elasticsearch, Kibana</li>
      <li>Javascript/Typescript</li>
    </ul>
    </div>
    <div class="column-right">
    <ul>
-     <li>Angular/Ionic 2</li>
+     <li>Angular/Ionic 3</li>
      <li>Maven</li>
      <li>Jenkins</li>
    </ul>
@@ -48,28 +48,29 @@ A qualified and experienced Java developer who is positive, proactive and self-m
 Oct 2016, today
 
 
-> * Developing Hybrid mobile (Ionic2) app to help patients with hemophilia disease tracking a log of the progress of their treatment.
-> * Architectural change from Liferay basis to Microservices with Spring Cloud
-> * Log processing with ELK stack
+> * Desarrollo de una aplicación movil hibrida con Ionic 3 enfocada al sector de la salud usando PouchDB, Couchbase y couchbase sync gateway.
+> * Cambio de arquitectura partiendo de un portal en Liferay a Microservicios con Spring Cloud
+> * Infraestructura para el procesamiento de logs usando el stack ELK (Elasticsearch, Logstash y Kibana)
+> * Adaptación de una aplicación para un proceso de internacionalización.
 
 ## Java Developer – _Swissrisk_
 
 Oct 2010, Jul 2016
 
- > * GUI automated testing using Cucumber for easily define scenarios, JUnit to execute the test and Selenium to interact with the browser.
- > * Developing a new application for research and analysis of different products available on the bonds marketplace using REST and AngularJS and D3.js.
- > * Developing the core and GUI of Finaware Suite, an application for data-based analysis and reporting, specifically designed for the Private Banking Sector.
- > * Developing the [MyDepotCheck](http://www.mydepotcheck.com) website, that gives a completely independent, objective and neutral advice on investment products and a comparison of the different investment products available on the market.
-
+ > * Automatización de tests de una aplicación web usando Cucumber, JUnit y Selenium.
+ > * Desarrollo de una aplicación web para el analisis de los diferentes productos en el mercado de renta fija usando las AngularJS y D3.
+ > * Desarrollando el backend y frontend de una aplicación para la analítica y generación de informes diseñada especificamente para la banca privada. Las tecnologías empleadas en este proyecto fueron JSF, Spring, Hibernate y Birt.
+ > * Desarrollo de un portal web que ofrece información totalmente independiente y objetiva, junto con consejos sobre diferentes productos de inversión.
+ 
 ## SAP Business One Consultant – _SCL Consulting_
 May 2010 - Oct 2010
 
-> * Developing an ERP designed particularly for the Health and Beauty Sector using the platform of SAP Business One.
+> * ERP para el sector de belleza usando SAP Bussiness One
 
 ## Java Developer – _Abysal_
 Oct 2008 - Oct 2009
 
-> * Working for the Spanish Home Office developing an application for effectively exchanging DNA and vehicles' registration in the [Prüm Treaty](http://ec.europa.eu/dgs/home-affairs/what-we-do/policies/police-cooperation/prum-decision/index_en.htm)
+> * Trabajando para el ministerio del interior desarrollando una aplicación web y el intercambio efectivo de información de ADN y registro de vehiculos en el marco del [Tratado Prüm](http://ec.europa.eu/dgs/home-affairs/what-we-do/policies/police-cooperation/prum-decision/index_en.htm). 
 
 ## Java Developer – _Indra_
 Apr 2007 - Dec 2007
