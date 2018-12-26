@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[frnd]]></title><description><![CDATA[frnd]]></description><link>http://frnd.github.io</link><generator>metalsmith-feed</generator><lastBuildDate>Fri, 15 Jun 2018 12:14:28 GMT</lastBuildDate><atom:link href="http://frnd.github.io/rss.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Fernando González]]></author><item><title><![CDATA[PWA con Ionic3 y Workbox en 2 patadas.]]></title><description><![CDATA[<p>En 2 sencillos pasos vamos a crear una aplicación web progresiva partiendo de un proyecto en ionic 3. Usaremos Workbox ya que ofrece muchas posibilidades.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[frnd]]></title><description><![CDATA[frnd]]></description><link>http://frnd.github.io</link><generator>metalsmith-feed</generator><lastBuildDate>Wed, 26 Dec 2018 23:32:37 GMT</lastBuildDate><atom:link href="http://frnd.github.io/rss.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Fernando González]]></author><item><title><![CDATA[PWA con Ionic3 y Workbox en 2 patadas.]]></title><description><![CDATA[<p>En 2 sencillos pasos vamos a crear una aplicación web progresiva partiendo de un proyecto en ionic 3. Usaremos Workbox ya que ofrece muchas posibilidades.</p>
 <!-- more -->
 <p>Para este artículo vamos a partir de un proyecto de ionic 3 ya creado. Puedes crearte uno facilmente con ionic-cli:</p>
 <pre><code class="hljs">ionic <span class="hljs-built_in">start</span> ionic3-pwa-workbox blank</code></pre>
@@ -64,14 +64,14 @@ git add --all
 git commit -m <span class="hljs-string">"production build"</span>
 git push origin <span class="hljs-string">master:</span>gh-pages -f</code></pre>
 
-<p>Nuestra PWA está disponible en (<a href="https://frnd.github.io/ionic3-pwa-workbox/)[https://frnd.github.io/ionic3-pwa-workbox/">https://frnd.github.io/ionic3-pwa-workbox/)[https://frnd.github.io/ionic3-pwa-workbox/</a>]. En la siguiente captura puedes ver los resultados que da Lighthouse.</p>
+<p>Nuestra PWA está disponible en (<a href="https://frnd.github.io/ionic3-pwa-workbox/)[https://frnd.github.io/ionic3-pwa-workbox/]">https://frnd.github.io/ionic3-pwa-workbox/)[https://frnd.github.io/ionic3-pwa-workbox/]</a>. En la siguiente captura puedes ver los resultados que da Lighthouse.</p>
 <p><img src="/images/2018/05/pwa-ionic3-workbox-2.png" alt="Resultados Lighthouse" title="Resultados Lighthouse"></p>
 <h2 id="codigo-fuente-y-enlaces-">Codigo fuente y enlaces.</h2>
-<p>Puedes ver el codigo fuente de este royecto en (github)[<a href="https://github.com/frnd/ionic3-pwa-workbox">https://github.com/frnd/ionic3-pwa-workbox</a>] y acceder al ejemplo (ionic3-pwa-workbox)[<a href="https://frnd.github.io/ionic3-pwa-workbox/">https://frnd.github.io/ionic3-pwa-workbox/</a>]. Mas información de interés:</p>
+<p>Puedes ver el codigo fuente de este royecto en (github)[<a href="https://github.com/frnd/ionic3-pwa-workbox]">https://github.com/frnd/ionic3-pwa-workbox]</a> y acceder al ejemplo (ionic3-pwa-workbox)[<a href="https://frnd.github.io/ionic3-pwa-workbox/]">https://frnd.github.io/ionic3-pwa-workbox/]</a>. Mas información de interés:</p>
 <ul>
-<li>(ionic)[<a href="https://ionicframework.com/">https://ionicframework.com/</a>]</li>
-<li>(Progressive Web Apps)[<a href="https://developers.google.com/web/progressive-web-apps/">https://developers.google.com/web/progressive-web-apps/</a>]</li>
-<li>(Workbox)[<a href="https://developers.google.com/web/tools/workbox/#get-started">https://developers.google.com/web/tools/workbox/#get-started</a>]</li>
+<li>(ionic)[<a href="https://ionicframework.com/]">https://ionicframework.com/]</a></li>
+<li>(Progressive Web Apps)[<a href="https://developers.google.com/web/progressive-web-apps/]">https://developers.google.com/web/progressive-web-apps/]</a></li>
+<li>(Workbox)[<a href="https://developers.google.com/web/tools/workbox/#get-started]">https://developers.google.com/web/tools/workbox/#get-started]</a></li>
 </ul>
 <p>Para problemas o comentarios, puedes crear un tema en el github del proyecto <a href="https://github.com/frnd/ionic3-pwa-workbox/issues/new">https://github.com/frnd/ionic3-pwa-workbox/issues/new</a></p>
 ]]></description><link>http://frnd.github.io/blog/pwa-con-ionic3-y-workbox-en-2-patadas</link><guid isPermaLink="true">http://frnd.github.io/blog/pwa-con-ionic3-y-workbox-en-2-patadas</guid><dc:creator><![CDATA[Fernando González]]></dc:creator><pubDate>Tue, 01 May 2018 00:00:00 GMT</pubDate></item><item><title><![CDATA[NodeJS-Express: Agrupar mensajes en los logs mediante ID único]]></title><description><![CDATA[<p>Extension de NodeJS-Express para trazar mensajes de logs agrupando todos los provenientes de la misma request mediante un identificador único.</p>
