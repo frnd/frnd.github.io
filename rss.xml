@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[frnd]]></title><description><![CDATA[frnd]]></description><link>http://frnd.github.io</link><generator>metalsmith-feed</generator><lastBuildDate>Thu, 27 Dec 2018 18:25:26 GMT</lastBuildDate><atom:link href="http://frnd.github.io/rss.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Fernando González]]></author><item><title><![CDATA[PWA con Ionic3 y Workbox en 2 patadas.]]></title><description><![CDATA[<p>En 2 sencillos pasos vamos a crear una aplicación web progresiva partiendo de un proyecto en ionic 3. Usaremos Workbox ya que ofrece muchas posibilidades.</p>
+<!-- more -->
+<p>Para este artículo vamos a partir de un proyecto de ionic 3 ya creado. Puedes crearte uno facilmente con ionic-cli:</p>
+<pre><code class="hljs">ionic <span class="hljs-built_in">start</span> ionic3-pwa-workbox blank</code></pre>
+
+<h2 id="primera-patada-activar-el-service-worker">Primera patada: Activar el service worker</h2>
+<p>Para este paso vamos al fichero <code>./src/index.html</code> y descomentamos el siguiente código:</p>
+<pre><code class="hljs">&lt;script&gt;
+    <span class="hljs-keyword">if</span> (<span class="hljs-string">'serviceWorker'</span> <span class="hljs-keyword">in</span> navigator) {
+      navigator.serviceWorker.register(<span class="hljs-string">'service-worker.js'</span>)
+        .<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'service worker installed'</span>))
+        .<span class="hljs-keyword">catch</span>(err =&gt; <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error'</span>, err));
+    }
+&lt;/script&gt;</code></pre>
+
+<p>Desde este momento ya tenemos el service worker activo con lo que ciertas rutas estarán cacheadas. Podemos verlo si lanzamos <code>ìonic serve</code> y vamos a la consola:</p>
+<p><img src="/images/2018/05/pwa-ionic3-workbox-1.png" alt="service worker installed" title="service worker installed"></p>
+<h2 id="segunda-patada-usar-workbox">Segunda patada: usar Workbox</h2>
+<p>primero vamos a instalar workbox con npm:</p>
+<pre><code class="hljs">npm <span class="hljs-tag">i</span> workbox-sw --save</code></pre>
+
+<p>Y ahora vamos a indicar a ionic que nos copie este fichero al hacer el build extendiendo la configuración por defecto. Crearemos un fichero al que lamaremos <code>/config/copy.config.js</code> con el siguiente contenido:</p>
+<pre><code class="hljs"><span class="xml">module.exports = </span><span class="hljs-expression">{
+  <span class="hljs-variable">copyWorkboxSw</span>: {
+    <span class="hljs-variable">src</span>: ['<span class="hljs-end-block">/node</span>_<span class="hljs-variable">modules</span><span class="hljs-end-block">/workbox-sw</span><span class="hljs-end-block">/build</span><span class="hljs-end-block">/workbox-sw.js</span>'],
+    <span class="hljs-variable">dest</span>: ''
+  }</span><span class="xml">
+}</span></code></pre>
+
+<p>Indicaremos en <code>package.json</code> el siguiente codigo para indicarle a ionic que tambien use la configuración que hemos creado:</p>
+<pre><code class="hljs"><span class="hljs-string">"config"</span>: {
+    <span class="hljs-string">"ionic_copy"</span>: <span class="hljs-string">"./config/copy.config.js"</span>
+  }</code></pre>
+
+<p>Y modificaremos el service worker creado por ionic en nuestro proyecto por uno usando Workbox:</p>
+<pre><code class="hljs"><span class="hljs-pi">'use strict'</span>;
+importScripts(<span class="hljs-string">'./build/workbox-sw.js'</span>);
+
+<span class="hljs-comment">/*
+This is our code to cache static files.
+*/</span>
+self.workbox.precaching.precacheAndRoute([
+    <span class="hljs-string">'./build/main.js'</span>,
+    <span class="hljs-string">'./build/vendor.js'</span>,
+    <span class="hljs-string">'./build/main.css'</span>,
+    <span class="hljs-string">'./build/polyfills.js'</span>,
+    <span class="hljs-string">'index.html'</span>,
+    <span class="hljs-string">'manifest.json'</span>
+    ]
+);</code></pre>
+
+<h2 id="para-terminar-patapum-pariba-y-test-con-lighthouse-">Para terminar: patapum pariba y test con Lighthouse.</h2>
+<p>Para este artículo voy a usar gh-pages pero cualquier otro hosting que ofrezcan https sería valido.</p>
+<p>Mediante los siguientes comandos construiremos la aplicación para subirla a producción.</p>
+<pre><code class="hljs">ionic cordova <span class="hljs-built_in">platform</span> <span class="hljs-built_in">add</span> browser
+ionic cordova build browser <span class="hljs-comment">--prod</span></code></pre>
+
+<p>Ahora tendremos nuestra aplicación en  <code>./platforms/browser/www/</code> asi que subiremos este directorio a nuestra rama gh-pages (recuerda usar tu nombre de usuario y tu repositorio en github):</p>
+<pre><code class="hljs">cd platforms<span class="hljs-regexp">/browser/</span>www/
+git init
+git remote add origin <span class="hljs-string">https:</span><span class="hljs-comment">//github.com/frnd/ionic3-pwa-workbox.git</span>
+git add --all
+git commit -m <span class="hljs-string">"production build"</span>
+git push origin <span class="hljs-string">master:</span>gh-pages -f</code></pre>
+
+<p>Nuestra PWA está disponible en <a href="https://frnd.github.io/ionic3-pwa-workbox/">https://frnd.github.io/ionic3-pwa-workbox/</a>. 
+En la siguiente captura puedes ver los resultados que da Lighthouse.</p>
+<p><img src="/images/2018/05/pwa-ionic3-workbox-2.png" alt="Resultados Lighthouse" title="Resultados Lighthouse"></p>
+<h2 id="codigo-fuente-y-enlaces-">Codigo fuente y enlaces.</h2>
+<p>Puedes ver el codigo fuente de este proyecto en <a href="https://github.com/frnd/ionic3-pwa-workbox">github</a> y acceder al 
+ejemplo <a href="https://frnd.github.io/ionic3-pwa-workbox/">ionic3-pwa-workbox</a>. Mas información de interés:</p>
+<ul>
+<li><a href="https://ionicframework.com/">ionic</a></li>
+<li><a href="https://developers.google.com/web/progressive-web-apps/">Progressive Web Apps</a></li>
+<li><a href="https://developers.google.com/web/tools/workbox/#get-started">Workbox</a></li>
+</ul>
+<p>Para problemas o comentarios, puedes crear un tema en el <a href="https://github.com/frnd/ionic3-pwa-workbox/issues/new">github del proyecto</a></p>
+]]></description><link>http://frnd.github.io/blog/pwa-con-ionic3-y-workbox-en-2-patadas</link><guid isPermaLink="true">http://frnd.github.io/blog/pwa-con-ionic3-y-workbox-en-2-patadas</guid><dc:creator><![CDATA[Fernando González]]></dc:creator><pubDate>Tue, 01 May 2018 00:00:00 GMT</pubDate></item><item><title><![CDATA[NodeJS-Express: Agrupar mensajes en los logs mediante ID único]]></title><description><![CDATA[<p>Extension de NodeJS-Express para trazar mensajes de logs agrupando todos los provenientes de la misma request mediante un identificador único.</p>
+<!-- more -->
+<p>Recientemente, en un proyecto personal en NodeJs, me encontré con la necesidad de trazar logs agrupando todos los mensajes provenientes de la misma request. Buscando, vi varias alternativas pero necesitaba incluir varias dependencias que al final no encajaban del todo bien.</p>
+<p>Como solo necesitaba una excusa para crear mi primera extensión para nodejs, pues me puse manos a la obra. El resultado <a href="https://github.com/frnd/winston-express-logger">winston-express-logger</a>  </p>
+<p>Este paquete es un ‘middleware’ para Express que crea un logger de Winston en el objeto request, que si lo usamos añadirá a los metadatos propios de la llamada a log los siguientes:</p>
+<ul>
+<li>requesId: identificador único para cada request.</li>
+<li>method: El método HTTP usado en la llamada</li>
+<li>url: la URL a la que se dirige la petición</li>
+<li>ip: dirección ip origen de la petición</li>
+<li>userAgent: navegador que ha realizado la petición.</li>
+</ul>
+<p>De momento está en fase beta y le faltan por completar algunos de los tests, pero ya puedes usarlo en tu proyecto:</p>
+<p>Para instalarlo:</p>
+<pre><code class="hljs sh">$ npm install --save https://github.com/frnd/winston-express-logger.git</code></pre>
+
+<p>En la inicialización de express:</p>
+<pre><code class="hljs js"><span class="hljs-keyword">var</span> winston = <span class="hljs-built_in">require</span>(<span class="hljs-string">'winston'</span>);
+<span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
+<span class="hljs-keyword">var</span> winstonExpressLogger = <span class="hljs-built_in">require</span>(<span class="hljs-string">'winston-express-logger'</span>);
+
+<span class="hljs-comment">// Initialize express app</span>
+<span class="hljs-keyword">var</span> app = express();
+
+<span class="hljs-comment">// Add the request logger.</span>
+app.use(winstonExpressLogger.create(logger));</code></pre>
+
+<p>A partir de ahora en el objeto request de express tendrás un atributo log que será un logger de Winston, pudiéndolo usar de la siguiente forma:</p>
+<pre><code class="hljs js">exports.controller = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> </span>{
+    [...]
+    req.logger.info(<span class="hljs-string">'Doing something'</span>);
+    [...]
+}</code></pre>
+
+<p>Que generará un mensaje en el log de la siguiente forma:</p>
+<pre><code class="hljs"><span class="hljs-number">2015</span>-<span class="hljs-number">09</span>-<span class="hljs-number">28</span>T21:<span class="hljs-number">56</span>:<span class="hljs-number">52</span>.<span class="hljs-number">064</span>Z - info: <span class="hljs-type">Doing</span> something <span class="hljs-keyword">method</span>=<span class="hljs-type">GET</span>, url=/api/doing, ip=<span class="hljs-number">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>, userAgent=<span class="hljs-type">Chrome</span> <span class="hljs-number">46</span>.<span class="hljs-number">0</span>.<span class="hljs-number">2490</span> / <span class="hljs-type">Linux</span> <span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>, requestId=<span class="hljs-number">7</span>a91efe1-e851-<span class="hljs-number">421</span>c-b86a-f1cb2c3f2d25</code></pre>]]></description><link>http://frnd.github.io/blog/nodejs-express-agrupar-mensajes-en-los-logs-mediante-id-nico</link><guid isPermaLink="true">http://frnd.github.io/blog/nodejs-express-agrupar-mensajes-en-los-logs-mediante-id-nico</guid><dc:creator><![CDATA[Fernando González]]></dc:creator><pubDate>Mon, 28 Sep 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[Generación de código fuente con Maven.]]></title><description><![CDATA[<p>En este artículo veremos como mediante la capacidad de filtrado de archivos de Maven podremos generar clases java que posteriormente se compilará formando parte del proyecto como si fuera un fichero de código normal.</p>
+<!-- more -->
+<p>Este articulo requiere una serie de conocimientos sobre Maven. Para más información puedes visitar la <a href="http://maven.apache.org/">página del proyecto de Maven</a>.</p>
+<p>Como ejemplo útil vamos a generar una clase con la información del nombre de proyecto y la versión que se han indicado en el fichero POM que luego podremos usar en nuestro código normal y así conseguir que ajustando la configuración
+estándar de Maven, automáticamente estos cambios queden presentes en el código fuente.</p>
+<h2 id="estructura-de-directorios">Estructura de directorios</h2>
+<p>La estructura de directorios del proyecto sera como la de cualquier proyecto Maven solo que con una carpeta añadida para contener los ficheros con las plantillas para los fuentes generados.</p>
+<pre><code>.
+├── pom.xml
+└── src
+    └── main
+        ├── java
+        │   └── es
+        │       └── excelsit
+        │           └── sourceGenerationExample
+        │               └── ClaseNormal.java
+        └── source-templates
+            └── es
+                └── excelsit
+                    └── sourcesGenerationExample
+                        └── Version.java
+</code></pre><p>En la línea número 10 del listado de directorios anterior vemos una carpeta llamada source-template. Esta será la carpeta que contendrá las plantillas.</p>
+<h2 id="configuraci-n-de-maven">Configuración de Maven</h2>
+<p>Para que Maven se entere de la existencia de esta carpeta hay que configurarlo en el POM.</p>
+<pre><code>&lt;resources&gt;
+  [...]
+  &lt;resource&gt;
+    &lt;directory&gt;src/main/source-templates&lt;/directory&gt;
+    &lt;filtering&gt;true&lt;/filtering&gt;
+    &lt;targetPath&gt;../generated-sources/filtering&lt;/targetPath&gt;
+  &lt;/resource&gt;
+  [...]
+&lt;/resources&gt;
+</code></pre><p>Mediante el código anterior incluiremos una carpeta de recursos que usará el filtrado de propiedades de Maven y que el resultado se copiará en la carpeta <code>/target/generated-sources/filtering</code>. Para el elemento <code>targetPath</code> hay que tener en cuenta que la ruta es relativa al directorio de compilación (más información sobre la estructura de directorios estandar de Maven) y que por defecto en el la generación de codigo se realiza dentro del directorio <code>/target/generated-sources/NOMBRE_PLUGIN</code></p>
+<p>El próximo paso es indicarle al plugin de compilación que existe un nuevo directorio con fuentes que también debe tener en cuenta.</p>
+<pre><code class="hljs"><span class="hljs-tag">&lt;<span class="hljs-title">plugins</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">plugin</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">groupId</span>&gt;</span>org.codehaus.mojo<span class="hljs-tag">&lt;/<span class="hljs-title">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">artifactId</span>&gt;</span>build-helper-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-title">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">executions</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">execution</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">id</span>&gt;</span>add-source<span class="hljs-tag">&lt;/<span class="hljs-title">id</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">phase</span>&gt;</span>generate-sources<span class="hljs-tag">&lt;/<span class="hljs-title">phase</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">goals</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">goal</span>&gt;</span>add-source<span class="hljs-tag">&lt;/<span class="hljs-title">goal</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">goals</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">configuration</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">sources</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-title">source</span>&gt;</span>${basedir}/target/generated-sources/filtering<span class="hljs-tag">&lt;/<span class="hljs-title">source</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-title">sources</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">configuration</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">execution</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">executions</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">plugin</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">plugins</span>&gt;</span></code></pre>
+
+<p>De la línea 12 a la 16 vemos la parte de configuración del plugin de compilación de Maven donde le hemos indicado una nueva carpeta con fuentes.</p>
+<h2 id="proyecto-de-ejemplo-">Proyecto de ejemplo.</h2>
+<p>Para que tengais una visión de como quedaría el proyecto aquí tenéis el ejemplo sobre <a href="/uploads/2011/06/23/srcgen.zip">generación de código mediante el filtrado de Maven</a> completo. Para ver el resultado podeis usar el siguiente comando:</p>
+<pre><code>mvn -Dexec.classpathScope=runtime &quot;-Dexec.args=-classpath %classpath es.frnd.srcgen.ClaseNormal&quot; -Dexec.executable=java process-classes org.codehaus.mojo:exec-maven-plugin:1.2:exec
+</code></pre>]]></description><link>http://frnd.github.io/blog/generaci-n-de-c-digo-fuente-con-maven</link><guid isPermaLink="true">http://frnd.github.io/blog/generaci-n-de-c-digo-fuente-con-maven</guid><dc:creator><![CDATA[Fernando González]]></dc:creator><pubDate>Thu, 23 Jun 2011 00:00:00 GMT</pubDate></item><item><title><![CDATA[Creación de una plantilla para proyecto con Maven.]]></title><description><![CDATA[<p>Archetype: una plantilla para crear rapidamente la estructura de tu proyecto.</p>
+<!-- more -->
+<p>Maven es una herramienta muy útil para la gestión de proyectos. Facilita la gestión de dependencias del proyecto, pruebas unitarias, integración continua. Está basado en un sistema de plugins que ofrece la posibilidad de extender Maven para realizar cualquier tipo de tarea. En este artículo vamos a ver como se puede usar esta herramienta para generar una plantilla para acelerar el desarrollo de nuevos proyectos.</p>
+<p>Como ya hemos dicho, Maven es una herramienta para compilar y gestionar proyectos.  Es muy usada en proyectos Java, aunque es genérica y podría ser usada para cualquier lenguaje. Está basada en que el proyecto tiene una estructura de directorios específica que veremos posteriormente, aunque es totalmente configurable.</p>
+<h2 id="creaci-n-de-una-plantilla-vac-a-">Creación de una plantilla vacía.</h2>
+<p>Una plantilla para Maven tiene la siguiente estructura:</p>
+<pre><code>archetype
+|-- pom.xml
+`-- src
+    `-- main
+        `-- resources
+            |-- META-INF
+            |   `-- maven
+            |       `--archetype.xml ó archetype-metadata.xml
+            `-- archetype-resources
+                |-- pom.xml
+                `-- src
+                    |-- main
+                    |   `-- java
+                    `-- test
+                        `-- java
+</code></pre><p>Como puedes ver, sigue la estructura de cualquier proyecto Maven. Hay varios ficheros que hay que tener en cuenta:</p>
+<ul>
+<li>pom.xml en el directorio raíz se encuentra el fichero POM con la información para gestionar el proyecto para generar la plantilla.</li>
+<li>pom.xml: Será el POM del proyecto que se genere usando la plantilla que estamos creando. Podemos decir que el contenido de la carpeta archetype-resources será el contenido del proyecto que generemos con esta platilla.</li>
+<li>archetype.xml ó archetype-metadata.xml: Describe los ficheros que contendrá el proyecto que se genere con esta plantilla. El primero (archetype.xml) es para la versión 1 del plugin, mientras que el segundo (archetype-metadata.xml) se usa en la versión 2 o superiores.</li>
+</ul>
+<p>En el directorio archetype-resources estarán los ficheros que contendrá el proyecto que generemos con esta plantilla.</p>
+<p>En el directorio archetype-resources estarán los ficheros que contendrá el proyecto que generemos con esta plantilla.</p>
+<p>Puedes crear esa estructura a mano, pero es más sencillo usar el <a href="http://maven.apache.org/plugins/maven-archetype-plugin/usage.html" title="maven-archetype-plugin">plugin Archetype</a> que te permite crear esa estructura sin esfuerzo. Para esto usaremos el siguiente comando:</p>
+<pre><code>mvn archetype:generate
+</code></pre><h2 id="creaci-n-de-una-plantilla-bas-ndose-en-un-proyecto-existente-">Creación de una plantilla basándose en un proyecto existente.</h2>
+<p>Si ya tienes un proyecto sobre el que quieras crear un modelo para poder generar proyectos similares puedes ejecutar el siguiente comando:</p>
+<pre><code>mvn archetype:create-from-project
+</code></pre><p>Una vez que Maven haya finalizado su ejecución, en la carpeta target/generated-source tendrás la plantilla para tu proyecto con los ficheros pom.xml, archetype.xml y archetype-metadata.xml generados de forma automática.</p>
+<p>Es posible que necesites realizar alguna modificación en los ficheros para adaptar mejor la plantilla a tus necesidades. Por ejemplo:</p>
+<ul>
+<li>Organizar el código en un paquete</li>
+<li>Definir variables en el contenido del fichero para adaptar ciertos nombres a tus necesidades.</li>
+<li>Personalizar los nombres de ficheros según unas variables.</li>
+</ul>
+<h2 id="organizar-los-ficheros-en-paquetes">Organizar los ficheros en paquetes</h2>
+<p>Dentro del fichero archetype-metadata.xml encontraremos una serie de descriptores de los directorios en los que se compone nuestro proyecto. Un ejemplo sería:</p>
+  <pre><code class="hljs"><span class="hljs-tag">&lt;<span class="hljs-title">fileSet</span> <span class="hljs-attribute">filtered</span>=<span class="hljs-value">"true"</span> <span class="hljs-attribute">packaged</span>=<span class="hljs-value">"true"</span> <span class="hljs-attribute">encoding</span>=<span class="hljs-value">"UTF-8"</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">directory</span>&gt;</span>src/main/java<span class="hljs-tag">&lt;/<span class="hljs-title">directory</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">includes</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">include</span>&gt;</span>**/*.java<span class="hljs-tag">&lt;/<span class="hljs-title">include</span>&gt;</span>
+     <span class="hljs-tag">&lt;/<span class="hljs-title">includes</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">fileSet</span>&gt;</span></code></pre>
+
+<p>Como vemos es bastante descriptivo, pero vamos a explicar la parte que nos interesa.  En el elemento fileSet vemos el atributo packaged=”true”, mediante este atributo indicamos a maven que al prosesar el contenido de ese directorio use una estructura de paquetes. Si por ejemplo, el contenido de ese directorio es</p>
+<pre><code>src/main/java
+          |-- common
+          |    `-- Objeto.java
+          |-- servicio
+                `-- Objeto.java
+</code></pre><p>en el proyecto resultado estará dentro de una estructura de paquetes indicado mediante la variable ${package}. Si por ejemplo el contenido de esta variable es es.excelsit.miProyecto el resultado sería:</p>
+<pre><code>src/main/java
+    es
+    `--excelsit
+        `-- miProyecto
+              |-- common
+              |   `-- Objeto1.java
+              |-- servicio
+                  `-- Objeto2.java
+</code></pre><p>El fichero para la clase Objeto1 y Objeto2 deberá contener la instrucción package es.excelsit.miProyecto;. Para ello usaremos la siguiente sintaxis para la definición del paquete:</p>
+<pre><code class="hljs"><span class="hljs-package"><span class="hljs-keyword">package</span> ${</span><span class="hljs-package"><span class="hljs-keyword">package</span>};</span></code></pre>
+
+<h2 id="uso-de-variables-en-la-plantilla-">Uso de variables en la plantilla.</h2>
+<p>Si abrimos alguno de los ficheros de nuestra plantilla veremos que todos comienzan con algo asi:</p>
+<pre><code class="hljs"><span class="hljs-id">#set</span> ( <span class="hljs-variable">$symbol_pound</span> = <span class="hljs-string">'#'</span> )
+<span class="hljs-id">#set</span> ( <span class="hljs-variable">$symbol_dollar</span> = <span class="hljs-string">'$'</span> )
+<span class="hljs-id">#set</span> ( <span class="hljs-variable">$symbol_escape</span> = <span class="hljs-string">'\' )</span></code></pre>
+
+<p>Como vemos por su sintaxis, el plugin usa de forma interna <a href="http://velocity.apache.org/engine/devel/translations/user-guide_es.html">Velocity</a> para la generación y adaptación de los ficheros de nuestra platilla de proyecto. Esto nos permite mucha libertad a la hora de crear el contenido del fichero. Hay que tener en cuenta que como  los símbolos almoadilla (#), dolar ($) y barra invertida (\) son caracteres especiales, si los queremos usar deberemos hacerlo mediante sus variables <code>$symbol_pound</code>, <code>$symbol_dollar</code> y <code>$symbol_escape</code> correspondientes.</p>
+<h3 id="a-adir-propiedades-propias-">Añadir propiedades propias.</h3>
+<p>Podremos crear propiedades propias de la siguiente forma:</p>
+<pre><code>#set ( $miPropiedad = &#39;valor&#39; )
+</code></pre><p>En este punto tendremos toda la libertad que ofrece Velocity para concatenar cadenas, obtener la fecha del sistema, etc. Estas propiedades que creemos las podemos usar dentro del contenido del fichero mediante <code>$miPropiedad</code>.</p>
+<p>También tenemos la posibilidad de renombrar ficheros según nuestras necesidades durante el proceso de generación de nuestro proyecto a partir de la plantilla. Para poder usar variables en el nombre del fichero usaremos dos careateres guión bajo (_) rodeando el nombre de la varible para indicar que se debe sustituir por su vlaor. Por ejemplo:</p>
+<pre><code class="hljs">__miPropiedad__App<span class="hljs-class">.java</span>
+__artifactId__-context<span class="hljs-class">.xml</span>
+__groupId__App.java</code></pre>
+
+<h3 id="personalizar-el-nombre-de-ficheros-con-variables-">Personalizar el nombre de ficheros con variables.</h3>
+<p>De forma predeterminada tenemos usa serie da variables ya predefinidas quepodemos usar para renombrar ficheros de nuestra plantilla, pero nos puede interesar crear variables en el momento de generar el proyecto para renombrar ficheros. Para poder hacer esto podemos valernos de que el primer fichero que se procesa es el pom.xml y crear en el las variebles con el valor que necesitemos. Posteriormente podremos hacer referencia a esas variables definidas en el nombre del fichero. Por ejemplo podemos definir el fichero pom.xml de la siguiente forma:</p>
+<pre><code class="hljs"><span class="hljs-comment">#set ( $customProperty = 'Excelsit' )</span>
+<span class="hljs-comment">#set ( $theArtifactId = $artifactId )</span>
+<span class="hljs-comment">#set ( $thegroupId = $groupId )</span>
+<span class="hljs-comment">#set ( $theVersion = $version )</span>
+<span class="hljs-variable">&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;</span>
+  <span class="hljs-variable">&lt;modelVersion&gt;</span>4.0.0<span class="hljs-variable">&lt;/modelVersion&gt;</span>
+  <span class="hljs-variable">&lt;groupId&gt;</span>$thegroupId<span class="hljs-variable">&lt;/groupId&gt;</span>
+  <span class="hljs-variable">&lt;artifactId&gt;</span>$theArtifactId<span class="hljs-variable">&lt;/artifactId&gt;</span>
+  <span class="hljs-variable">&lt;version&gt;</span>$theVersion<span class="hljs-variable">&lt;/version&gt;</span>
+
+  <span class="hljs-variable">&lt;dependencies&gt;</span>
+    <span class="hljs-variable">&lt;dependency&gt;</span>
+      <span class="hljs-variable">&lt;groupId&gt;</span>junit<span class="hljs-variable">&lt;/groupId&gt;</span>
+      <span class="hljs-variable">&lt;artifactId&gt;</span>junit<span class="hljs-variable">&lt;/artifactId&gt;</span>
+      <span class="hljs-variable">&lt;version&gt;</span>3.8.1<span class="hljs-variable">&lt;/version&gt;</span>
+      <span class="hljs-variable">&lt;scope&gt;</span>test<span class="hljs-variable">&lt;/scope&gt;</span>
+    <span class="hljs-variable">&lt;/dependency&gt;</span>
+  <span class="hljs-variable">&lt;/dependencies&gt;</span>
+<span class="hljs-variable">&lt;/project&gt;</span></code></pre>
+
+<p>En la línea 1 hemos definido una propiedad a la que le hemos dado cierto valor. Pero recuerda que internamente funciona con Velocity, por lo que podremos generar ese valor de cualquier forma. Podremos usar esa propiedad para renombrar ficheros según la forma que hemos visto anteriormente __customProperty__App.java</p>
+<h2 id="usar-la-plantilla-">Usar la plantilla.</h2>
+<p>Para usar la plantilla lo más sencillo es realizar una instalación local. Usaremos el siguiente comando dentro de la carpeta de nuestro proyecto:</p>
+<pre><code>$mvn install
+</code></pre><p>Una vez instalado podremos usarlo meniante archetype:generate. Por defecto el plugin buscará en catalogo central de Maven. Para modificar este comportamiento usaremos el parámetro archetypeCatalog=local:</p>
+<pre><code>mvn archetype:generate -DarchetypeCatalog=local
+</code></pre><p>Si no aparece nuestra plantilla quizás deberamos actualizar el catalogo mediante el comando:</p>
+<pre><code>mvn archetype:crawl
+</code></pre><h2 id="c-digo-de-ejemplo">Código de ejemplo</h2>
+<p>Descarga el ejemplo de plantilla: <a href="/uploads/2011/04/09/frnd-example-archetype.zip">example-archetype</a>.</p>
+]]></description><link>http://frnd.github.io/blog/creaci-n-de-una-plantilla-para-proyecto-con-maven</link><guid isPermaLink="true">http://frnd.github.io/blog/creaci-n-de-una-plantilla-para-proyecto-con-maven</guid><dc:creator><![CDATA[Fernando González]]></dc:creator><pubDate>Sat, 09 Apr 2011 00:00:00 GMT</pubDate></item><item><title><![CDATA[Uso del Table Control en tu Dynpro.]]></title><description><![CDATA[<p>El objetivo es conocer los conceptos más importantes a la hora de trabajar con un table control y crear uno mediante el
+asistente. También se estudiará el código que generado para las tareas más usuales y se darán alguno ejemplos.</p>
+<!-- more -->
+<p>Para usar correctamente este control hay que tener un punto clave muy claro. En cada ciclo PAI – PBO el Table Control
+mostrara el contenido de la tabla interna al que se haya asociado. Por lo tanto, si se hace una modificación en los
+datos que se están mostrando en la Dynpro estos hay que salvarlos en la tabla interna en el PAI para que al completarse
+el ciclo se muestren las modificaciones.</p>
+<p>Otra de las necesidades más comunes al usar un Table Control es el hecho de activar/desactivar alguna de sus celdas
+según una condición en alguno de los campos de la fila en la que se encuentra o según el contenido de ese campo. Esta
+tarea se realiza en el PBO ya que es algo que se debe realizar justo antes de mostrar la tabla.</p>
+<p>En el siguiente esquema vemos cada una de las acciones que se pueden realizar para manejar un Table Control y donde se
+deben realizar.</p>
+<p><img src="/images/2010/08/1.png" alt="Esquema general" title="Esquema general" itemprop="image"></p>
+<h2 id="pasos-previos-para-crear-un-table-control-">Pasos previos para crear un Table Control.</h2>
+<p>Crear un Table Control es un proceso muy sencillo usando el Wizard que tenemos en el entorno de desarrollo, pero antes
+de ejecutar este Wizard hay que crear una serie de elementos en nuestro código:</p>
+<p>Crear un tipo estructura que contendrá los campos que se mostrarán en la tabla junto con un campo oculto que se usará
+de forma interna para marcar las filas seleccionadas. Para nuestro ejemplo quedará de la siguiente forma, donde el campo mark será el campo interno para marcar las filas seleccionadas:</p>
+<pre><code>TYPES: BEGIN OF ty_s_tablecontrol,
+idemp TYPE ZEMPLEADOS-IDEMP,
+fecha TYPE ZDATGEN-FECHA,
+nombr TYPE ZEMPLEADOS-NOMBR,
+apel1 TYPE ZEMPLEADOS-APEL1,
+apel2 TYPE ZEMPLEADOS-APEL2,
+mark TYPE C,
+DELETE TYPE C,
+END OF ty_s_tablecontrol.
+</code></pre><p>Definir un tipo tabla según la estructura anteriormente creada.</p>
+<pre><code>TYPES ty_t_tablecontrol TYPE STANDARD TABLE OF ty_s_tablecontrol.
+</code></pre><p>Definir una variable para la tabla interna y su área de trabajo.</p>
+<pre><code>DATA wa_tablecontrol TYPE ty_s_tablecontrol.
+DATA it_tablecontrol TYPE ty_t_tablecontrol.
+</code></pre><h2 id="uso-del-wizard">Uso del Wizard</h2>
+<p>En este momento ya tenemos todos los elementos básicos para usar el Wizard y mostrar nuestro Table Control.</p>
+<p><strong>Importante: Antes de usar el asistente hay que activar el programa por completo.</strong></p>
+<p>Crearemos una Dynpro de tipo normal y cuya pantalla siguiente sea esa misma Dynpro. Para ejecutar dicho asistente
+acudimos al Layout de nuestra Dynpro y pulsamos el botón Table Control mediante Wizard. Podemos realizar lo mismo sin el Asistente pero será trabajar de más y con mayores posibilidades de equivocarnos.</p>
+<p>Para ejecutar el asistente tenemos usaremos el icono de la barra lateral del Layout.</p>
+<p><img src="/images/2010/08/2.png" alt="Alt Insertar un table control con el asistente" title="Insertar un table control con el asistente"></p>
+<p>El primer paso del asistente pulsaremos el botón Continuar. De momento es sencillo.</p>
+<p><img src="/images/2010/08/3.png" alt="Alt Asistente - Inicio" title="Asistente - Inicio"></p>
+<p>En el segundo paso es darle un nombre a nuestro Table Control. Es importante elegir un nombre no muy largo por que el
+asistente creará subrutinas según ese nombre y si es muy largo se nos irá del número de caracteres máximo.</p>
+<p><img src="/images/2010/08/4.png" alt="Alt Asistente - Nombre del Table Control" title="Asistente - Nombre del Table Control"></p>
+<p>En el tercer paso nos pide si el Table Control va a manejar directamente una tabla del diccionario de datos o una tabla
+interna. Si seleccionamos la primera opción, con este Table Control vamos a modificar directamente el contenido de una
+tabla de la base de datos. No es necesario decir que esto puede ser un poco peligroso.</p>
+<p><img src="/images/2010/08/5.png" alt="Alt Asistente - Nombre de la tabla" title="Asistente - Nombre de la tabla"></p>
+<p>Si seleccionamos la segunda opción deberemos indicar la tabla interna que va a gestionar el Table Control  y el área de
+trabajo que usaremos. Estos datos son las variables que creamos anteriormente.</p>
+<p>En el cuarto paso seleccionaremos las filas que queremos mostrar en la tabla. Dejaremos sin seleccionar el campo que
+hemos creado para guardar las filas seleccionadas.</p>
+<p><img src="/images/2010/08/6.png" alt="Alt Asistente - Definición de columnas" title="Asistente - Definición de columnas"></p>
+<p>En el siguiente paso seleccionaremos si la tabla será sólo de salida, es decir, no se podrán hacer modificaciones sobre el contenido de la tabla, de Entrada, que entonces permitirá realizar modificaciones sobre el contenido y crear nuevas líneas. Hay que tener en cuenta que esta configuración se podrá modificar posteriormente accediendo a la configuración desde el Layout o mediante código activando o desactivando la entrada de datos en el campo o la columna. Esto ya lo veremos posteriormente. En este ejemplo crearemos el Table Control de tipo Entrada y añadiremos la columna reservada en
+los pasos anteriores para el Campo columna de selección.  Habilitaremos la selección múltiple si queremos que esté
+disponible al usuario.</p>
+<p><img src="/images/2010/08/7.png" alt="Alt Asistente - Atributos del Table Control" title="Asistente - Atributos del Table Control"></p>
+<p>En el siguiente paso nos solicita que botones estándar tiene que crear para nuestro Table Control donde seleccionaremos
+todas las casillas.</p>
+<p><img src="/images/2010/08/8.png" alt="Alt Asistente - Selección de funciones" title="Asistente - Selección de funciones"></p>
+<p>En este penúltimo paso indicaremos el nombre de los includes que usamos en nuestro código y donde el asistenta
+introducirá las partes de código necesarias. Si seguimos la nomenclatura estándar tendremos los siguientes includes
+para cada caso:</p>
+<ul>
+<li>*TOP – Definiciones de datos.</li>
+<li>*O01 – PBO.</li>
+<li>*I01 – PAI.</li>
+<li>*F01 – Subrutinas.</li>
+</ul>
+<p><img src="/images/2010/08/9.png" alt="Alt Asistente - Especificación de includes" title="Asistente - Especificación de includes"></p>
+<p>El último paso no sindicará las acciones que se van a realizar. Pulsaremos sobre finalizar y el asistente creará el
+código necesario.</p>
+<p><img src="/images/2010/08/10.png" alt="Alt Asistente - Finalizar" title="Asistente - Finalizar"></p>
+<p>En las siguientes secciones analizaremos el código para comprenderlo.</p>
+<h2 id="c-digo-generado-por-el-asistente-en-el-pbo">Código generado por el asistente en el PBO</h2>
+<p>En la pestaña de la lógica de proceso se ha creado el siguiente código para el PBO.</p>
+<pre><code>MODULE TC_VAC_CHANGE_TC_ATTR.
+MODULE TC_VAC_CHANGE_COL_ATTR.
+LOOP AT   IT_TABLECONTROL
+     INTO WA_TABLECONTROL
+     WITH CONTROL TC_VAC
+     CURSOR TC_VAC-CURRENT_LINE.
+  MODULE TC_VAC_GET_LINES.
+  MODULE TC_VAC_CHANGE_FIELD_ATTR.
+ENDLOOP.
+</code></pre><p>Ciertas líneas aparecerán comentadas pero en este manual expondremos para que se utilizara cada uno de los módulos.</p>
+<p>Dentro del módulo TC_VAC_CHANGE_TC_ATTR de la línea 1 pondríamos el código para cambiar los atributos del Table Control por completo.</p>
+<p>Dentro del módulo TC_VAC_CHANGE_COL_ATTR de la línea 2 pondríamos el código para cambiar los atributos de las columnas del Table Control.</p>
+<p>Desde la línea 3 hasta la 9 hay un bucle que recorre cada una de las líneas de la tabla interna. Será en este bucle
+donde se realizarán las diferentes acciones referentes a modificar el aspecto de cada una de las celdas de la tabla
+como por ejemplo permitir o no la modificación de esa celda. Dentro del módulo TC_VAC_CHANGE_FIELD_ATTR será el punto
+más idóneo para realizar esas tareas.  En el siguiente trozo de código se puede ver un ejemplo de lo que podemos
+realizar.</p>
+<pre><code>MODULE TC_VAC_CHANGE_FIELD_ATTR OUTPUT.
+  LOOP AT SCREEN.
+    IF screen-NAME = &#39;WA_TABLECONTROL-FECHA&#39;.
+      IF WA_TABLECONTROL-FECHA &gt; sy-datum.
+        screen-INPUT = &#39;1&#39;.
+      ENDIF.
+    ENDIF.
+    MODIFY SCREEN.
+  ENDLOOP.
+ENDMODULE.
+</code></pre><p>En el anterior código, se activan las casillas de la tabla que contengan una fecha mayor a la del día de hoy. En la
+línea 2 se realiza un bucle sobre los campos de una fila de la tabla. En la línea 3 se comprueba si el capo actual de
+la ventana es el que no s interesa y en la línea 4 se comprueba la condición sobre ese campo. Si la condición se
+cumple, en la línea 5 se cambia la propiedad de la ventana que indica si el campo está disponible para operaciones de
+entrada y salida. Finalmente en la línea 8 se realiza la modificación de los cambios que se han realizado en la ventana.</p>
+<h2 id="c-digo-generado-por-el-asistente-en-el-pai">Código generado por el asistente en el PAI</h2>
+<p>En la pestaña de la lógica de proceso se ha creado el siguiente código para el PBO.</p>
+<pre><code>LOOP AT IT_TABLECONTROL.
+    CHAIN.
+      FIELD WA_TABLECONTROL-IDEMP.
+      FIELD WA_TABLECONTROL-FECHA.
+      FIELD WA_TABLECONTROL-NOMBR.
+      FIELD WA_TABLECONTROL-APEL1.
+      FIELD WA_TABLECONTROL-APEL2.
+      MODULE TC_VAC_MODIFY ON CHAIN-REQUEST.
+    ENDCHAIN.
+    FIELD WA_TABLECONTROL-MARK
+      MODULE TC_VAC_MARK ON REQUEST.
+ENDLOOP.
+MODULE TC_VAC_USER_COMMAND.
+MODULE TC_VAC_CHANGE_TC_ATTR.
+MODULE TC_VAC_CHANGE_COL_ATTR.
+</code></pre><p>En la linea 8 se hace la llamada al módulo que realizará la modificación en la tabla interna de los cambios que se
+hayan realizado en la ventana. En este paso sería importante antes de realizar dicha modificación, comprobar la validez
+de los datos introducidos en la Dynpro Como en el siguiente ejemplo:</p>
+<pre><code>MODULE TC_VAC_MODIFY INPUT.
+ IF WA_TABLECONTROL-FECHA &gt; sy-datum.
+   MODIFY IT_TABLECONTROL
+     FROM WA_TABLECONTROL
+     INDEX TC_VAC-CURRENT_LINE.
+ ELSE.
+   MESSAGE &#39;Fecha anterior a la actual&#39; TYPE &#39;W&#39;.
+ ENDIF.
+ENDMODULE.
+</code></pre><p>Como vemos si la fecha solicitada es  mayor que la actual (línea 2) se realiza la modificación. Si es anterior se
+muestra el mensaje de error. Es importante notar que al estar el módulo dentro de un CHAIN … ENDCHAIN si se produce
+un mensaje de error en el módulo se regresa a la Dynpro y se activarán únicamente para modificación los campos
+declarados con la clausula FIELD .</p>
+<p>En la línea 13 le realiza una llamada al módulo TC_VAC_USER_COMMAND. Este módulo es el encargado de gestionar los
+botones propios del Table Control  para insertar, borrar, avanzar o retroceder paginas o filas, marcar o desmarcar
+una fila, etc.</p>
+<p>Dentro del módulo TC_VAC_USER_COMMAND se llama a la subrutina USER_OK_TC que es la encargada de comprobar cual es el
+botón que ha sido pulsado y encaminar la ejecución a la subrutina encargada de la lógica de ese botón. En el siguiente
+diagrama se puede ver dicha lógica.</p>
+<p><img src="/images/2010/08/11.png" alt="Alt Flujo de la lógica de control para los botones del Table Control" title="Flujo de la lógica de control para los botones del Table Control"></p>
+<p>El código estándar funciona para la mayoría de las necesidades, pero si por ejemplo necesitamos que la inserción de
+nuevas filas en la tabla ciertos campos se completen por defecto, necesitaremos modificar el código de la subrutina
+FCODE_INSERT_ROW.</p>
+]]></description><link>http://frnd.github.io/blog/uso-del-table-control-en-tu-dynpro</link><guid isPermaLink="true">http://frnd.github.io/blog/uso-del-table-control-en-tu-dynpro</guid><dc:creator><![CDATA[Fernando González]]></dc:creator><pubDate>Wed, 11 Aug 2010 00:00:00 GMT</pubDate></item><item><title><![CDATA[Select Options en tu WebDynpro.]]></title><description><![CDATA[<p>SELECT-OPTIONS de las Dynpro ABAP son una forma muy sencilla de crear filtros complejos para realizar
+consultas pero tambien se pueden usar en las WebDynpro. Aquí te explicamos como.</p>
+<!-- more -->
+<p>En las WebDynpro también disponemos de las capacidades que ofrece ese elemento de ABAP usando el componente WDR_SELECT_OPTIONS.</p>
+<p>En este tutorial veremos un ejemplo sencillo y las diferentes opciones de personalización más comunes que ofrece.</p>
+<p>El objetivo que perseguimos es obtener una pantalla de selección como la que sigue:</p>
+<p><img src="/images/2010/03/resultado-final.png" alt="Alt Resultado Final SELECT-OPTIONS en WebDynpro." title="Resultado Final SELECT-OPTIONS en WebDynpro." itemprop="image"></p>
+<p>En esta pantalla se han eliminado las opciones de selección extendidas pero estas salen por defecto y solo tendrás que
+eliminar unos parámetros para que aparezcan.</p>
+<h2 id="como-usar-el-componente-wdr_select_options">Como usar el componente WDR_SELECT_OPTIONS</h2>
+<p>El primer paso será indicar el uso del componente. Esto se hace en la vista del componente mediante los botones añadir
+y eliminar uso. Para este ejemplo usaremos tambien SALV_WD_TABLE para mostrar la tabla de materiales. El nombre que le
+pongamos en la columna “Component Use” será importante ya que se usará posteriormente.</p>
+<p><img src="/images/2010/03/componente.png" alt="Alt Vista de Componente." title="Vista de Componente."></p>
+<p>En nuestro component controller también indicaremos el uso del componente para manejar select options.</p>
+<p><img src="/images/2010/03/sowd.png" alt="Alt Vista del Component Controller" title="Vista del Component Controller"></p>
+<p>En nuestra ventana principal crearemos un contenedor de vistas (ViewContainerUIElement) para nuestro conjunto de campos
+de selección.</p>
+<p><img src="/images/2010/03/vista-main.png" alt="Alt Vista MAIN" title="Vista MAIN"></p>
+<p>En la vista de la ventana incrustaremos la vista WND_SELECTION_SCREEN que nos facilita el componente WDR_SELECT_OPTIONS.
+Esto es así por que en un mismo componente se pueden incluir varios campos de selección además de campos de entrada
+simples (Input Fields, Check Boxes, etc.).</p>
+<p><img src="/images/2010/03/vista-ventana.png" alt="Alt Vista de Ventana" title="Vista de Ventana"></p>
+<p>En este momento tenemos la vista vacia, y tenemos que añadir los campos de selección que queramos. Esto se hace
+mediante 2 métodos que proporciona el componente en la interfaz if_wd_select_options. El primero crea la
+tabla donde se guardan los rangos de selección:</p>
+<pre><code>lt_range_matnr = lr_helper-&gt;<span class="hljs-function"><span class="hljs-title">create_range_table</span><span class="hljs-params">( i_typename = <span class="hljs-string">'NOMBRE_TIPO_DATOS'</span> )</span></span>.</code></pre>
+
+<p>El segundo crea los campos de selección en la vista:</p>
+<pre><code><span class="hljs-prompt">lr_helper-&gt;</span>add_selection_field( i_id = <span class="hljs-string">'NOMBRE_CAMPO'</span>
+it_result = lt_range_matnr ).</code></pre>
+
+<p>En esta función se han puesto los parámetros imprescindibles para crear un SELECT-OPTIONS como en las Dynpro ABAP,
+pero hay además otros parámetros que pueden resultar útiles como:</p>
+<ul>
+<li>i_no_extension = [abap_true | abap_false] Elimina la posibilidad de crear una tabla de selecciones múltiple.</li>
+<li>i_no_complex_restrictions = [abap_true |abap_false] Elimina la posibilidad de cambiar el operador relacional.</li>
+</ul>
+<p>Estas tareas se realizarán en el método WDDOINIT de nuestro component controller, que es donde hemos declarado el uso del componente de sap para manejar select options, por lo que para nuestro ejemplo quedará como sigue:</p>
+<pre><code>METHOD wddoinit <span class="hljs-built_in">.</span>
+
+  <span class="hljs-built_in">DATA</span> lr_select_options <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> iwci_wdr_select_options<span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lr_helper <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> if_wd_select_options<span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lt_range_matnr <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> <span class="hljs-built_in">DATA</span><span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lt_range_matkl <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> <span class="hljs-built_in">DATA</span><span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lt_range_mtart <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> <span class="hljs-built_in">DATA</span><span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lr_comp_usage <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> if_wd_component_usage<span class="hljs-built_in">.</span>
+  <span class="hljs-built_in">DATA</span> lv_otr_text <span class="hljs-keyword">TYPE</span> <span class="hljs-built_in">STRING</span><span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span>this code is <span class="hljs-keyword">to</span> instantiate the component wdr_select_options
+  lr_comp_usage <span class="hljs-subst">=</span> wd_this<span class="hljs-subst">-&gt;</span>wd_cpuse_select_options( )<span class="hljs-built_in">.</span>
+  <span class="hljs-keyword">IF</span> lr_comp_usage<span class="hljs-subst">-&gt;</span>has_active_component( ) IS INITIAL<span class="hljs-built_in">.</span>
+    lr_comp_usage<span class="hljs-subst">-&gt;</span>create_component( )<span class="hljs-built_in">.</span>
+  ENDIF<span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span> Call the interface controller method init_selection_screen <span class="hljs-keyword">to</span> get the helper class
+  lr_select_options <span class="hljs-subst">=</span> wd_this<span class="hljs-subst">-&gt;</span>wd_cpifc_select_options( )<span class="hljs-built_in">.</span>
+  lr_helper <span class="hljs-subst">=</span> lr_select_options<span class="hljs-subst">-&gt;</span>init_selection_screen( )<span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span> <span class="hljs-built_in">Set</span> <span class="hljs-built_in">global</span> options<span class="hljs-built_in">.</span>
+  lr_helper<span class="hljs-subst">-&gt;</span>set_global_options(
+                              i_display_btn_cancel  <span class="hljs-subst">=</span> abap_false
+                              i_display_btn_check   <span class="hljs-subst">=</span> abap_false
+                              i_display_btn_reset   <span class="hljs-subst">=</span> abap_false
+                              i_display_btn_execute <span class="hljs-subst">=</span> abap_false )<span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span>Use the helper class <span class="hljs-keyword">to</span> create a range table for the <span class="hljs-built_in">data</span> elements MATNR, MATKL <span class="hljs-literal">and</span> MTART<span class="hljs-built_in">.</span>
+  lt_range_matnr <span class="hljs-subst">=</span> lr_helper<span class="hljs-subst">-&gt;</span>create_range_table( i_typename <span class="hljs-subst">=</span> <span class="hljs-string">'MARA-MATNR'</span> )<span class="hljs-built_in">.</span>
+  lt_range_matkl <span class="hljs-subst">=</span> lr_helper<span class="hljs-subst">-&gt;</span>create_range_table( i_typename <span class="hljs-subst">=</span> <span class="hljs-string">'MARA-MATKL'</span> )<span class="hljs-built_in">.</span>
+  lt_range_mtart <span class="hljs-subst">=</span> lr_helper<span class="hljs-subst">-&gt;</span>create_range_table( i_typename <span class="hljs-subst">=</span> <span class="hljs-string">'MARA-MTART'</span> )<span class="hljs-built_in">.</span>
+
+<span class="hljs-subst">*</span>Add a Selection Screen Field
+  lr_helper<span class="hljs-subst">-&gt;</span>add_selection_field( i_id <span class="hljs-subst">=</span> <span class="hljs-string">'SO_MATNR'</span>
+                                  it_result <span class="hljs-subst">=</span> lt_range_matnr
+                                  i_no_extension <span class="hljs-subst">=</span> abap_true             <span class="hljs-string">" Supress the multiple selection option.
+                                  i_use_complex_restriction = abap_true  "</span> Supress the relational operator button<span class="hljs-built_in">.</span>
+                                  )<span class="hljs-built_in">.</span>
+  lr_helper<span class="hljs-subst">-&gt;</span>add_selection_field( i_id <span class="hljs-subst">=</span> <span class="hljs-string">'SO_MATKL'</span>
+                                  it_result <span class="hljs-subst">=</span> lt_range_matkl
+                                  i_value_help_structure <span class="hljs-subst">=</span> <span class="hljs-string">'MARA'</span>        <span class="hljs-string">" Search help.
+                                  i_value_help_structure_field = 'MATKL'
+                                  i_no_extension = abap_true             "</span> Supress the multiple selection option<span class="hljs-built_in">.</span>
+                                  i_use_complex_restriction <span class="hljs-subst">=</span> abap_true  <span class="hljs-string">" Supress the relational operator button.
+                                  ).
+  lr_helper-&gt;add_selection_field( i_id = 'SO_MTART'
+                                  it_result = lt_range_mtart
+                                  i_value_help_mode = '0'
+                                  i_value_help_structure = 'MARA'        "</span> Search help<span class="hljs-built_in">.</span>
+                                  i_value_help_structure_field <span class="hljs-subst">=</span> <span class="hljs-string">'MTART'</span>
+                                  i_no_extension <span class="hljs-subst">=</span> abap_true             <span class="hljs-string">" Supress the multiple selection option.
+                                  i_use_complex_restriction = abap_true  "</span> Supress the relational operator button<span class="hljs-built_in">.</span>
+                                  )<span class="hljs-built_in">.</span>
+ENDMETHOD<span class="hljs-built_in">.</span></code></pre>
+
+<p>Es posible crear todo tipo de campos de entrada mediante el método add_parameter_field. Por ejemplo, para crear un check box:</p>
+<pre><code><span class="hljs-prompt">lr_helper-&gt;</span>add_parameter_field( i_id = <span class="hljs-string">'NOMBRE_CAMPO'</span>
+                                  i_as_checkbox = abap_true
+                                  i_description = lv_otr_text
+                                  ).</code></pre>
+
+<p>En este momento ya tenemos una pantalla donde se muestra un conjunto de campos de selección para nuestras necesidades. Nos queda resolver la necesidad de chequear la corrección de los datos introducidos por el usuario y la obtención de estos para generar la consulta.</p>
+<p>Para el primer paso, el componente ofrece el método check_all_selection_fields que devuelve el número de errores que se han producido. Posteriormente podemos usar un IF para comprobar si retorna 0 errores y continuar con el proceso o cancelar. El componente mostrará automáticamente los errores en la pantalla.</p>
+<pre><code>CALL <span class="hljs-function"><span class="hljs-keyword">METHOD</span> <span class="hljs-title">lr_helper</span>-&gt;<span class="hljs-title">check_all_selection_fields</span>
+    <span class="hljs-title">IMPORTING</span>
+      <span class="hljs-title">e_num_error_msgs</span>   = <span class="hljs-title">lv_num_error_msgs</span>
+*      <span class="hljs-title">e_num_warning_msgs</span> = <span class="hljs-title">lv_num_warning_msgs</span>
+*      <span class="hljs-title">e_num_info_msgs</span>    = <span class="hljs-title">lv_num_info_msgs</span>
+      .
+
+  <span class="hljs-title">IF</span> <span class="hljs-title">lv_num_error_msgs</span> <span class="hljs-title">EQ</span> 0
+*     <span class="hljs-title">lv_num_warning_msgs</span> <span class="hljs-title">eq</span> 0
+*     <span class="hljs-title">lv_num_info_msgs</span> <span class="hljs-title">eq</span> 0
+  .
+* <span class="hljs-title">No</span> <span class="hljs-title">errors</span>
+  <span class="hljs-title">ELSE</span>.
+* <span class="hljs-title">At</span> <span class="hljs-title">least</span> <span class="hljs-title">one</span> <span class="hljs-title">error</span>.
+  <span class="hljs-title">ENDIF</span>.</span></code></pre>
+
+<p>El siguiente paso es obtener la tabla con las opciones de selección que ha realizado el usiario. Esto se hará de la siguiente forma:</p>
+<pre><code><span class="hljs-built_in">DATA</span> so_matnr <span class="hljs-keyword">TYPE</span> REF <span class="hljs-keyword">TO</span> <span class="hljs-built_in">DATA</span><span class="hljs-built_in">.</span>
+FIELD<span class="hljs-attribute">-SYMBOLS</span>  <span class="hljs-keyword">TYPE</span> ANY TABLE<span class="hljs-built_in">.</span>
+so_matnr <span class="hljs-subst">=</span> lr_helper<span class="hljs-subst">-&gt;</span>get_range_table_of_sel_field( i_id <span class="hljs-subst">=</span> <span class="hljs-string">'SO_MATNR'</span> )<span class="hljs-built_in">.</span>
+ASSIGN so_matnr<span class="hljs-subst">-&gt;</span><span class="hljs-subst">*</span> <span class="hljs-keyword">TO</span> <span class="hljs-built_in">.</span></code></pre>
+
+<p>El FIELD-SYMBOL es necesario para usarlo posteriormente en la consulta a la base de datos (sentencia SELECT … IN …) ya que de otra forma se producirá un error de compilación.</p>
+<p>Para realizar el chequeo de los campos que no son SELECT-OPTIONS y obtener sus valores, usaremos los métodos check_all_parameter_fields y get_value_of_parameter_field de la interfaz if_wd_select_options.</p>
+<p>Estos metodos se usarán en una acción asignada a un botón. Para el ejemplo, hemos creado una acción MOSTRAR asignandola a su correspondiente botón. El código completo quedará como sigue:</p>
+<pre><code class="hljs javascript">METHOD onactionmostrar .
+
+  DATA lo_el_context TYPE REF TO if_wd_context_element.
+  DATA ls_context TYPE wd_this-&gt;element_context.
+  DATA lv_limit TYPE wd_this-&gt;element_context-limit.
+
+  DATA lo_nd_alv_table TYPE REF TO if_wd_context_node.
+  DATA lt_alv_table TYPE wd_this-&gt;elements_alv_table.
+
+  DATA so_matnr TYPE REF TO DATA.
+  DATA so_matkl TYPE REF TO DATA.
+  DATA so_mtart TYPE REF TO DATA.
+*  DATA limit TYPE REF TO data.
+  FIELD-SYMBOLS &lt;so_matnr&gt; TYPE ANY TABLE.
+  FIELD-SYMBOLS &lt;so_matkl&gt; TYPE ANY TABLE.
+  FIELD-SYMBOLS &lt;so_mtart&gt; TYPE ANY TABLE.
+
+  DATA lr_select_options TYPE REF TO iwci_wdr_select_options.
+  DATA lr_helper TYPE REF TO if_wd_select_options.
+  DATA lr_comp_usage TYPE REF TO if_wd_component_usage.
+  DATA lt_fields TYPE if_wd_select_options=&gt;tt_selection_screen_item.
+  FIELD-SYMBOLS &lt;ls_field&gt; TYPE if_wd_select_options=&gt;t_selection_screen_item.
+  DATA: lv_num_error_msgs TYPE i,
+        lv_num_warning_msgs TYPE i,
+        lv_num_info_msgs TYPE i.
+
+* Get report table from context.
+  lo_nd_alv_table = wd_context-&gt;get_child_node( NAME = wd_this-&gt;wdctx_alv_table ).
+
+  lr_comp_usage = wd_this-&gt;wd_cpuse_select_options( ).
+  IF lr_comp_usage-&gt;has_active_component( ) IS INITIAL.
+    lr_comp_usage-&gt;create_component( ).
+  ENDIF.
+
+  lr_select_options = wd_this-&gt;wd_cpifc_select_options( ).
+
+  lr_helper = lr_select_options-&gt;init_selection_screen( ).
+
+* check correction of selection fields.
+  CALL METHOD lr_helper-&gt;check_all_selection_fields
+    IMPORTING
+      e_num_error_msgs   = lv_num_error_msgs
+*      e_num_warning_msgs = lv_num_warning_msgs
+*      e_num_info_msgs    = lv_num_info_msgs
+      .
+
+  IF lv_num_error_msgs EQ <span class="hljs-number">0</span>
+*     lv_num_warning_msgs eq <span class="hljs-number">0</span>
+*     lv_num_info_msgs eq <span class="hljs-number">0</span>
+  .
+    lr_helper-&gt;get_selection_screen_items(
+                  IMPORTING et_selection_screen_items = lt_fields ).
+
+* Retrieve the data from the select option
+    so_matnr = lr_helper-&gt;get_range_table_of_sel_field( i_id = <span class="hljs-string">'SO_MATNR'</span> ).
+    ASSIGN so_matnr-&gt;* TO &lt;so_matnr&gt;.
+
+    so_matkl = lr_helper-&gt;get_range_table_of_sel_field( i_id = <span class="hljs-string">'SO_MATKL'</span> ).
+    ASSIGN so_matkl-&gt;* TO &lt;so_matkl&gt;.
+
+    so_mtart = lr_helper-&gt;get_range_table_of_sel_field( i_id = <span class="hljs-string">'SO_MTART'</span> ).
+    ASSIGN so_mtart-&gt;* TO &lt;so_mtart&gt;.
+
+*    limit = lr_helper-&gt;get_value_of_parameter_field( i_id  = <span class="hljs-string">'LIMIT'</span> ).
+
+    lo_el_context = wd_context-&gt;get_element( ).
+    lo_el_context-&gt;get_attribute(
+      EXPORTING
+        NAME =  `LIMIT`
+      IMPORTING
+        VALUE = lv_limit ).
+
+    IF lv_limit = abap_true.
+      SELECT m~matnr d~maktx txtm~mtbez txtt~wgbez m~ernam
+        INTO CORRESPONDING FIELDS OF TABLE lt_alv_table
+        FROM  ( ( ( mara AS m
+                LEFT OUTER JOIN makt AS d ON m~matnr = d~matnr AND d~spras = sy-langu  )
+                LEFT OUTER JOIN t134t AS txtm ON m~mtart = txtm~mtart AND txtm~spras = sy-langu )
+                LEFT OUTER JOIN t023t AS txtt ON m~matkl = txtt~matkl AND txtt~spras = sy-langu )
+       UP TO <span class="hljs-number">500</span> ROWS
+       WHERE m~matnr IN &lt;so_matnr&gt;
+         AND m~mtart IN &lt;so_mtart&gt;
+         AND m~matkl IN &lt;so_matkl&gt;
+       .
+    ELSE.
+      SELECT m~matnr d~maktx txtm~mtbez txtt~wgbez m~ernam
+       INTO CORRESPONDING FIELDS OF TABLE lt_alv_table
+       FROM  ( ( ( mara AS m
+               LEFT OUTER JOIN makt AS d ON m~matnr = d~matnr AND d~spras = sy-langu  )
+               LEFT OUTER JOIN t134t AS txtm ON m~mtart = txtm~mtart AND txtm~spras = sy-langu )
+               LEFT OUTER JOIN t023t AS txtt ON m~matkl = txtt~matkl AND txtt~spras = sy-langu )
+      WHERE m~matnr IN &lt;so_matnr&gt;
+        AND m~mtart IN &lt;so_mtart&gt;
+        AND m~matkl IN &lt;so_matkl&gt;
+      .
+    ENDIF.
+    IF sy-dbcnt &gt; <span class="hljs-number">0.</span>
+      lo_nd_alv_table-&gt;bind_table( new_items = lt_alv_table set_initial_elements = abap_true ).
+      wd_this-&gt;fire_to_alv_plg(
+      ).
+    ELSE.
+      wd_this-&gt;fire_to_no_data_plg(
+      ).
+    ENDIF.
+  ENDIF.
+ENDMETHOD.</code></pre>
+
+<p>##Completando el ejemplo.</p>
+<p>A partir de aqui, el resto del tutorial nos centramos en completar el ejemplo para poder mostrar el resultado de la consulta en un ALV. Si solo tienes interes en usar el componente para crear los SELECT_OPTIONS puedes terminar de leer aqui.</p>
+<p>Para almacenar los datos que se mostrarán en el ALV, crearemos un nodo en el controlador del componente (Component Controller) que contendrá los campos que deseemos mostrar. Para este ejemplo, realizaremos un informe sobre la tabla de materiales en la que mostraremos el numero de material, la descripción el grupo y el tipo en el idioma de inicio de sesión:</p>
+<ul>
+<li>mara-matnr</li>
+<li>makt-maktx</li>
+<li>t134t-mtbez</li>
+<li>t023t-wgbez</li>
+</ul>
+<p>En la vista del controlador ALV asociaremos el nodo creado en nuestro controlador con el nodo DATA que dispone el controlador del ALV. Esto hace que se muestren los datos en la tabla del ALV.</p>
+<p><img src="/images/2010/03/alv.png" alt="Alt Mapeo datos ALV" title="Mapeo datos ALV"></p>
+<p>También deberemos crear los conectores de salida y los de entrada para las diferentes vistas y asociarlos. En la siguiente captura de pantalla se pueden apleciar los diferentes conectores creadoy y su conexión.</p>
+<p><img src="/images/2010/03/conectores.png" alt="Alt Conectores" title="Conectores"></p>
+]]></description><link>http://frnd.github.io/blog/select-options-en-tu-webdynpro</link><guid isPermaLink="true">http://frnd.github.io/blog/select-options-en-tu-webdynpro</guid><dc:creator><![CDATA[Fernando González]]></dc:creator><pubDate>Sun, 14 Mar 2010 00:00:00 GMT</pubDate></item></channel></rss>

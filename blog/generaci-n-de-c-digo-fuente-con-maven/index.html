@@ -1,0 +1,212 @@
+<!--                                .,,*,..                                -->
+<!--                       .#%%%%%%%%%%%%%%%%%%%%%(         .              -->
+<!--           #%%%    .#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#   %%%%%%           -->
+<!--         %%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#%%%%%%%#         -->
+<!--       .%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%(        -->
+<!--       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        -->
+<!--       %%%%%%%%%%%%%%/         #%%%%%%%%/       /%%%%%%%%%%%%%         -->
+<!--        .*#%%%%%%%#              (%%%#             *%%%%%%%%.          -->
+<!--         .%%%%%%%*                 %                 %%%%%%%%          -->
+<!--         #%%%%%%(         /*             *            %%%%%%%/         -->
+<!--         %%%%%%%         %%.            %%            *%%%%%%#         -->
+<!--         %%%%%%%         %%%/          ,%%#,           %%%%%%#         -->
+<!--         #%%%%%%         %%%%           %%%%          ,%%%%%%,         -->
+<!--          %%%%%%#         %%            *%#           %%%%%%%          -->
+<!--          *%%%%%%#                                   #%%%%%%           -->
+<!--           .%%%%%%#          %#     .%/(%(          #%%%%%%            -->
+<!--             #%%%%           %           %           %%%%/             -->
+<!--               %%/            *.        .            /%(               -->
+<!--                 (                                   /                 -->
+<!--                 %,    /%*                    .#/   ,,                 -->
+<!--                  %/       *#%%%%######%%%%#*      (%                  -->
+<!--                   %%#                           #%/                   -->
+<!--                     #%%%,                   *%%%,                     -->
+<!--                        (%%%%%%%#(//((#%%%%%%%,                        -->
+<!--                             *#%%%%%%%%#(,                             -->
+ <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Generación de código fuente con Maven.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml" title="frnd" href="/rss.xml">
+    
+    <meta name="author" content="Fernando González">
+    
+    
+    <meta name="keywords" content="maven, code, template">
+    
+    <style>
+      .full {
+        background: url("/images/madrid-by-night.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+      .full body,
+      .full .jumbotron {
+        background: transparent;
+      }
+      .full .jumbotron * {
+        color: white;
+      }
+      .full .jumbotron {
+        padding-top: 10rem;
+        padding-bottom: 5rem;
+      }
+      .button {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        -o-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+        -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        -o-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        background-color: #192024;
+        border-radius: 6px;
+        border: 0;
+        color: #fff !important;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 0.125em;
+        font-size: 0.9em;
+        height: 2.85em;
+        line-height: 2.85em;
+        padding: 0 1.75em;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        text-indent: 0.25em;
+      }
+      .button.alt {
+        background-color: transparent;
+        box-shadow: inset 0 0 0 1px rgba(144, 144, 144, 0.75);
+        color: #fff !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-wrap ">
+      
+<header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="/" class="site-title">frnd</a>
+      <nav class="site-nav right">
+        <a href="/blog">Blog</a><a href="/about">About</a></nav>
+      <div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+
+      <div class="post p2 p-responsive wrap" role="main">
+        <div class="measure">
+          
+<div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header mb2">
+    <h1 itemprop="headline">Generación de código fuente con Maven.</h1>
+    <span class="post-meta" itemprop="datePublished" content="2011-06-23">Jun 23, 2011</span>
+    <span class="post-meta small">por</span> <span class="post-meta small" itemprop="author">Fernando González</span><br>
+    <span class="post-meta small">
+    <a href="/tags/maven" title="maven"><span itemprop="keywords">maven</span></a>, <a href="/tags/code" title="code"><span itemprop="keywords">code</span></a>, <a href="/tags/template" title="template"><span itemprop="keywords">template</span></a>
+    </span>
+  </header>
+  <article class="post-content py2" itemprop="text">
+  
+  <h6 itemprop="alternativeHeadline">En este artículo veremos como mediante la capacidad de filtrado de archivos de Maven podremos generar clases java que posteriormente se compilará formando parte del proyecto como si fuera un fichero de código normal.</h6>
+  
+  <p></p>
+<!-- more -->
+<p>Este articulo requiere una serie de conocimientos sobre Maven. Para más información puedes visitar la <a href="http://maven.apache.org/">página del proyecto de Maven</a>.</p>
+<p>Como ejemplo útil vamos a generar una clase con la información del nombre de proyecto y la versión que se han indicado en el fichero POM que luego podremos usar en nuestro código normal y así conseguir que ajustando la configuración
+estándar de Maven, automáticamente estos cambios queden presentes en el código fuente.</p>
+<h2 id="estructura-de-directorios">Estructura de directorios</h2>
+<p>La estructura de directorios del proyecto sera como la de cualquier proyecto Maven solo que con una carpeta añadida para contener los ficheros con las plantillas para los fuentes generados.</p>
+<pre><code>.
+├── pom.xml
+└── src
+    └── main
+        ├── java
+        │   └── es
+        │       └── excelsit
+        │           └── sourceGenerationExample
+        │               └── ClaseNormal.java
+        └── source-templates
+            └── es
+                └── excelsit
+                    └── sourcesGenerationExample
+                        └── Version.java
+</code></pre><p>En la línea número 10 del listado de directorios anterior vemos una carpeta llamada source-template. Esta será la carpeta que contendrá las plantillas.</p>
+<h2 id="configuraci-n-de-maven">Configuración de Maven</h2>
+<p>Para que Maven se entere de la existencia de esta carpeta hay que configurarlo en el POM.</p>
+<pre><code>&lt;resources&gt;
+  [...]
+  &lt;resource&gt;
+    &lt;directory&gt;src/main/source-templates&lt;/directory&gt;
+    &lt;filtering&gt;true&lt;/filtering&gt;
+    &lt;targetPath&gt;../generated-sources/filtering&lt;/targetPath&gt;
+  &lt;/resource&gt;
+  [...]
+&lt;/resources&gt;
+</code></pre><p>Mediante el código anterior incluiremos una carpeta de recursos que usará el filtrado de propiedades de Maven y que el resultado se copiará en la carpeta <code>/target/generated-sources/filtering</code>. Para el elemento <code>targetPath</code> hay que tener en cuenta que la ruta es relativa al directorio de compilación (más información sobre la estructura de directorios estandar de Maven) y que por defecto en el la generación de codigo se realiza dentro del directorio <code>/target/generated-sources/NOMBRE_PLUGIN</code></p>
+<p>El próximo paso es indicarle al plugin de compilación que existe un nuevo directorio con fuentes que también debe tener en cuenta.</p>
+<pre><code class="hljs"><span class="hljs-tag">&lt;<span class="hljs-title">plugins</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">plugin</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">groupId</span>&gt;</span>org.codehaus.mojo<span class="hljs-tag">&lt;/<span class="hljs-title">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">artifactId</span>&gt;</span>build-helper-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-title">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">executions</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">execution</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">id</span>&gt;</span>add-source<span class="hljs-tag">&lt;/<span class="hljs-title">id</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">phase</span>&gt;</span>generate-sources<span class="hljs-tag">&lt;/<span class="hljs-title">phase</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">goals</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">goal</span>&gt;</span>add-source<span class="hljs-tag">&lt;/<span class="hljs-title">goal</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">goals</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">configuration</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">sources</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-title">source</span>&gt;</span>${basedir}/target/generated-sources/filtering<span class="hljs-tag">&lt;/<span class="hljs-title">source</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-title">sources</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">configuration</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">execution</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">executions</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">plugin</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">plugins</span>&gt;</span></code></pre>
+
+<p>De la línea 12 a la 16 vemos la parte de configuración del plugin de compilación de Maven donde le hemos indicado una nueva carpeta con fuentes.</p>
+<h2 id="proyecto-de-ejemplo-">Proyecto de ejemplo.</h2>
+<p>Para que tengais una visión de como quedaría el proyecto aquí tenéis el ejemplo sobre <a href="/uploads/2011/06/23/srcgen.zip">generación de código mediante el filtrado de Maven</a> completo. Para ver el resultado podeis usar el siguiente comando:</p>
+<pre><code>mvn -Dexec.classpathScope=runtime &quot;-Dexec.args=-classpath %classpath es.frnd.srcgen.ClaseNormal&quot; -Dexec.executable=java process-classes org.codehaus.mojo:exec-maven-plugin:1.2:exec
+</code></pre>
+  </article>
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+  <div class="p2 wrap">
+    <div class="measure mt1 center">
+      <small>
+        built with <a href="http://www.metalsmith.io/">metalsmith</a> & theme from <a href="https://github.com/johnotander/pixyll">pixyll</a>
+      </small>
+    </div>
+  </div>
+</footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="/js/jquery.easing.js"></script>
+    <script src="/js/eu-cookie-law.js"></script>
+    <script src="/js/scripts.js"></script>
+  </body>
+</html>
