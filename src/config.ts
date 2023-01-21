@@ -3,7 +3,7 @@ import type { SocialObjects } from "./types";
 export const SITE = {
   website: "https://frnd.github.io/",
   author: "Fernando González",
-  desc: "HELLO!, I'm Fernando. A web developer from Madrid.",
+  desc: "Fernando González, A Full-Stack Developer from Madrid.",
   title: "frnd",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
